@@ -6,19 +6,20 @@ public class CartaVaca : MonoBehaviour {
 
 	public float speed;
 
-	public bool disponibilidade2;
-	bool disponibilidade3;
+	public bool boxEmpty;
+	public bool disponibilidade3;
 	ScriptCampo reconhece;
 	//Vector2 vetorOriginal = transform.position;
 
 	public GameObject clone;
 
-	void Update () {
+	void Update () 
+	{
 
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
 			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
 			transform.Translate (-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
-		}
+	}
 
 
 	}//FECHA_UPDATE	
@@ -30,12 +31,12 @@ public class CartaVaca : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (Input.GetTouch (0).phase == TouchPhase.Ended && disponibilidade2 == true) {
+		if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
 			disponibilidade3 = true;
-			Destroy (gameObject);
+			Destroy (gameObject);//carta explode, surge vaca
 		} else {
 			disponibilidade3 = false;
-			Destroy (gameObject);
+			Destroy (gameObject);//carta volta para a "mao"
 		}
 	}//FECHA_OnTriggerStay
 
@@ -44,7 +45,7 @@ public class CartaVaca : MonoBehaviour {
 		if(disponibilidade3 == true)
 		{
 			Instantiate (clone, other.gameObject.GetComponent<Transform> ().position, other.gameObject.GetComponent<Transform> ().rotation);
-			disponibilidade2 = false;
+			boxEmpty = false;
 			disponibilidade3 = false;
 			Debug.Log ("Valor passou de TRUE para FALSE");
 			//transform.Translate(vetorOriginal.x * speed, vetorOriginal.y * speed, 0);

@@ -1,1 +1,7 @@
+<<<<<<< .mine
+m_EditorVersion: 5.5.0xp1Linux
+||||||| .r2
+m_EditorVersion: 5.5.0xb5Linux
+=======
 m_EditorVersion: 5.5.0f3
+>>>>>>> .r7
