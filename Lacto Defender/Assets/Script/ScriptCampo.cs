@@ -2,13 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScriptCampo : MonoBehaviour {
+public class scriptCampo : MonoBehaviour {
 
 	public bool disponibilidade = true;
 
+	public GameObject tipo;
+
+	// Use this for initialization
+	void Start () {
+		
+		
+	}
+	
 	// Update is called once per frame
 	void Update () {
-
-	}//Fecha_Update
 		
-}//Fecha_ScriptCampo
+	}
+
+	void OnTriggerStay2D(Collider2D other){
+		tipo = other.gameObject;
+	}
+
+}

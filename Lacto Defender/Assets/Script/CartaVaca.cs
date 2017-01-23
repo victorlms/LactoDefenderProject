@@ -8,7 +8,7 @@ public class CartaVaca : MonoBehaviour {
 
 	public bool boxEmpty;
 	public bool disponibilidade3;
-	ScriptCampo reconhece;
+	scriptCampo reconhece;
 	//Vector2 vetorOriginal = transform.position;
 
 	public GameObject clone;
