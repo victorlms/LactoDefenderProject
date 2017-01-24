@@ -2,53 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartaVaca : MonoBehaviour {
+public class Carta : MonoBehaviour {
 
-	public float speed;
+	public float speed = 2.0f;
 
 	public bool boxEmpty;
-	public bool disponibilidade3;
+	public bool permission;
+
 	scriptCampo reconhece;
-	//Vector2 vetorOriginal = transform.position;
 
 	public GameObject clone;
 
-	void Update () 
-	{
+	static Vector3 vetorOriginal;
 
-		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
-			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
-			transform.Translate (-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
+
+	void start ()
+	{
+		vetorOriginal = transform.position;
 	}
 
+	void Update () 
+	{
 
 	}//FECHA_UPDATE	
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-
+		boxEmpty = other.gameObject.GetComponent<scriptCampo> ().disponibilidade;
 	}//FECHA_OnTriggerEnter
 
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
-			disponibilidade3 = true;
-			Destroy (gameObject);//carta explode, surge vaca
+			permission = true;
+			Destroy (gameObject);//carta explode, surge mooh
 		} else {
-			disponibilidade3 = false;
-			Destroy (gameObject);//carta volta para a "mao"
+			permission = false;
+			boxEmpty = false;
+			transform.position = Vector3.Lerp (transform.position, vetorOriginal, Time.deltaTime * speed);
+	
 		}
 	}//FECHA_OnTriggerStay
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if(disponibilidade3 == true)
+		if(permission == true)
 		{
 			Instantiate (clone, other.gameObject.GetComponent<Transform> ().position, other.gameObject.GetComponent<Transform> ().rotation);
 			boxEmpty = false;
-			disponibilidade3 = false;
+			permission = false;
+			other.gameObject.GetComponent<scriptCampo> ().disponibilidade = false;
 			Debug.Log ("Valor passou de TRUE para FALSE");
-			//transform.Translate(vetorOriginal.x * speed, vetorOriginal.y * speed, 0);
 		} else {
 			Debug.Log ("Indisponível");
 		}
