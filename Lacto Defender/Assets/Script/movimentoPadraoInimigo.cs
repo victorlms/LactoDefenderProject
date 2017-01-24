@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class movimentoPadrao : MonoBehaviour 
+public class movimentoPadraoInimigo : MonoBehaviour 
 {
 	void Start(){}
 	// Update is called once per frame

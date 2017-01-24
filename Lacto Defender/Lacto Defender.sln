@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{E12D7540-0611-BA74-50CD-CB277E6E5AAA}") = "Lacto Defender", "Assembly-CSharp.csproj", "{1446647F-399A-5154-628E-CDA58B3F03A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1446647F-399A-5154-628E-CDA58B3F03A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1446647F-399A-5154-628E-CDA58B3F03A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1446647F-399A-5154-628E-CDA58B3F03A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1446647F-399A-5154-628E-CDA58B3F03A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
