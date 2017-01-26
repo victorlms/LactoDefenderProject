@@ -25,19 +25,14 @@ public class movimentoPadraoPlayer : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		/**
-		List<GameObject> testaPath = other.gameObject.GetComponent<LineIndentificator> ().path;
 
-		if (line != testaPath) {
-			line = testaPath;
-			qtd = line.Count;
-			teste = true;
+
+		if (gameObject.tag = ("Linha1")) {
+
+			line = gameObject.GetComponentInParent<LineIndentificator> ().path;
+
 		}
-		**/
-
-		line = other.transform.GetChild (0).gameObject;
-		qtd = line.Count;
-
+			
 
 	}//FECHA_OnTriggerEnter2D
 
