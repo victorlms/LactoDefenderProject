@@ -4,31 +4,39 @@ using UnityEngine;
 
 public class movimentoPadraoInimigo : MonoBehaviour 
 {
+	//PRECISO DO SPAWN DEFINIDO PRA PODER SABER RELAÇÃO ALIEN /  VACA;
 	public float Caminhada;
 	public int num_de_colisões;
-	public List<GameObject> linhas;
-	public GameObject espaços;
+	List<GameObject> line;
+	public GameObject confere_tipo;
 
-	//void start ()
-	//{
-	//	linhas = new List<GameObject> ();
-	//	espaços = gameObject.transform.GetChild (1).gameObject;
-	//	linhas.Add(espaços);
-	//}
+	void start()
+	{
+		
+	}
+
 
 	void Update ()
 	{
 		transform.Translate (Vector3.left * Caminhada * Time.deltaTime);
 
+
 	
 	}
 	void OnTriggerStay2D(Collider2D campo)
 	{
+		
+		line = campo.transform.GetComponentInParent <LineIndentificator> ().path;
 	
-		if (campo.gameObject.tag == "Box7") {
-			num_de_colisões= num_de_colisões+1;
+		foreach( GameObject objeto in line)
+		{
+			confere_tipo = objeto.transform.GetComponentInParent <scriptCampo> ().tipo;
+			
+			if (confere_tipo.CompareTag("Player"));// && objeto.transform.parent.CompareTag(//conferir se é a mesma linha q o aien))
+				{
+					num_de_colisões++;
+				}
 		}
-	
 	}
 
 }
