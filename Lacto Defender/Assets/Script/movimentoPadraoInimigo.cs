@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class movimentoPadraoInimigo : MonoBehaviour 
 {
-	//PRECISO DO SPAWN DEFINIDO PRA PODER SABER RELAÇÃO ALIEN /  VACA;
+	
 	public float Caminhada;
 	public int num_de_colisões;
 	List<GameObject> line;
@@ -32,8 +32,9 @@ public class movimentoPadraoInimigo : MonoBehaviour
 		{
 			confere_tipo = objeto.transform.GetComponentInParent <scriptCampo> ().tipo;
 			
-			if (confere_tipo.CompareTag("Player"));// && objeto.transform.parent.CompareTag(//conferir se é a mesma linha q o aien))
+			if (confere_tipo.CompareTag("Player") && campo.transform.parent.tag == objeto.transform.parent.tag)
 				{
+					//ENTRA EM MODO DE ATAQUE
 					num_de_colisões++;
 				}
 		}
