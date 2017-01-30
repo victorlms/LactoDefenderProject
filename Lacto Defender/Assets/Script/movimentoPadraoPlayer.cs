@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class movimentoPadraoPlayer : MonoBehaviour 
-{
+{/*
 
 	GameObject lineUp;
 	GameObject lineDown;
@@ -205,5 +205,5 @@ public class movimentoPadraoPlayer : MonoBehaviour
 			other.gameObject.GetComponent<scriptCampo> ().disponibilidade = true;
 		}
 	}
-
+*/
 }//FECHA MONOBEHAVIOUR
