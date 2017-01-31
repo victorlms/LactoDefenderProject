@@ -9,7 +9,7 @@ public class Carta : MonoBehaviour {
 	public bool boxEmpty;
 	public bool permission;
 
-	scriptCampo reconhece;
+	ScriptField reconhece;
 
 	public GameObject clone;
 
@@ -28,7 +28,7 @@ public class Carta : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		boxEmpty = other.gameObject.GetComponent<scriptCampo> ().disponibilidade;
+		boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
 	}//FECHA_OnTriggerEnter
 
 	void OnTriggerStay2D(Collider2D other)
@@ -51,7 +51,7 @@ public class Carta : MonoBehaviour {
 			Instantiate (clone, other.gameObject.GetComponent<Transform> ().position, other.gameObject.GetComponent<Transform> ().rotation);
 			boxEmpty = false;
 			permission = false;
-			other.gameObject.GetComponent<scriptCampo> ().disponibilidade = false;
+			other.gameObject.GetComponent<ScriptField> ().freeFloor = false;
 			Debug.Log ("Valor passou de TRUE para FALSE");
 		} else {
 			Debug.Log ("Indisponível");

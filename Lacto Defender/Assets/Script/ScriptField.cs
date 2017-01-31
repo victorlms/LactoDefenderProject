@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scriptCampo : MonoBehaviour {
+public class ScriptField : MonoBehaviour {
 
-	public bool disponibilidade = true;
+	public bool freeFloor = true;
 
-	public GameObject tipo;
+	public GameObject type;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +20,7 @@ public class scriptCampo : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		tipo = other.gameObject;
+		type = other.gameObject;
 	}
 
 }

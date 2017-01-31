@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatusInimigo : MonoBehaviour {
+public class StatusEnemy : MonoBehaviour {
 
 // FUNÇÃO DESSE SCRIPT É SER, A PRINICIPIO, APENAS UM DEPÓSITO DE INFORMAÇÃO SOBRE O INIMIGO
 
-	public int life;
-	public int damage;
-	public int speed;
+	public float life;
+	public float damage;
+	public float speed;
 
+}
