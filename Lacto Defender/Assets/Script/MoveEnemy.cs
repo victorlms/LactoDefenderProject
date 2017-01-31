@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveEnemy : MonoBehaviour 
 {
-	
+	public status enemyStatus = status.atk;	
 	float walk;
 	List<GameObject> line;
 	GameObject checkType;
@@ -17,8 +17,22 @@ public class MoveEnemy : MonoBehaviour
 
 	void Update ()
 	{
-		walk = gameObject.GetComponent<StatusEnemy> ().speed;
-		transform.Translate (Vector3.left * walk * Time.deltaTime);
+		
+
+		switch (enemyStatus) 
+		{
+			case status.move:
+				walk = gameObject.GetComponent<StatusEnemy> ().speed;
+				transform.Translate (Vector3.left * walk * Time.deltaTime);
+			break;
+
+		case status.atk:
+			Debug.Log ("ta atacando!");
+			break;
+		case status.death:
+			Debug.Log ("ta morrendo!!");
+			break;
+		}
 
 
 	

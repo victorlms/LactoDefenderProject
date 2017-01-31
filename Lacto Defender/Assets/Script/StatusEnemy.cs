@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum status {atk, death, move };
+
 public class StatusEnemy : MonoBehaviour {
 
 // FUNÇÃO DESSE SCRIPT É SER, A PRINICIPIO, APENAS UM DEPÓSITO DE INFORMAÇÃO SOBRE O INIMIGO
