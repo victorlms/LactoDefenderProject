@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MoveEnemy : MonoBehaviour 
 {
-	public status enemyStatus = status.atk;	
-	float walk;
+	public status enemyStatus = status.move;	
 	List<GameObject> line;
 	GameObject checkType;
 
@@ -17,22 +16,30 @@ public class MoveEnemy : MonoBehaviour
 
 	void Update ()
 	{
+		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
+			enemyStatus = status.death;
 		
-
 		switch (enemyStatus) 
 		{
 			case status.move:
-				walk = gameObject.GetComponent<StatusEnemy> ().speed;
-				transform.Translate (Vector3.left * walk * Time.deltaTime);
+			
+			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
 
 		case status.atk:
 			Debug.Log ("ta atacando!");
+			/* Escrever o codigo da animação quando tiver */
+			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
+
+
 			break;
 		case status.death:
-			Debug.Log ("ta morrendo!!");
+			gameObject.GetComponent<StatusEnemy> ().speed = 0;
+			//ESCREVER NESSA LINHA A ANIMAÇÃO DO ALIEN MORRENDO;
+			Destroy(gameObject);
 			break;
 		}
+
 
 
 	
@@ -49,8 +56,7 @@ public class MoveEnemy : MonoBehaviour
 			if (checkType.CompareTag("Player") && other.transform.parent.tag == obj.transform.parent.tag)
 				{
 					//ENTRA EM MODO DE ATAQUE
-				Debug.Log("tesrgjhgif");
-					
+					enemyStatus = status.atk;
 				}
 		}
 	}
