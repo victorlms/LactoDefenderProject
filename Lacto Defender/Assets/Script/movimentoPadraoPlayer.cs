@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class movimentoPadraoPlayer : MonoBehaviour 
-{/*
+{
 
 	GameObject lineUp;
 	GameObject lineDown;
@@ -16,8 +16,9 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 
 	int qtd;
+	float speed = 2.5f;
 
-
+	bool touch = false;
 
 	void Start () {
 		
@@ -28,6 +29,8 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 
 		walk = new List<GameObject>();
+
+
 	}//FECHA_START
 		
 	void Update () {
@@ -36,15 +39,29 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 		if (Input.GetTouch (0).phase == TouchPhase.Began) {
 			
+			//delimita na tela os campos disponiveis
 
+			touch = true;
 
+			if ((touch == true) && (Input.GetTouch (1).phase == TouchPhase.Began)) {
 
-			if(Input.GetTouch (0).phase == TouchPhase.Began){
+				Vector3 touchDeltaPosition = Input.GetTouch (1).deltaPosition;
+
+				foreach (GameObject campo in walk) {
+
+					if (campo.transform.position == touchDeltaPosition) {
+
+						if (campo.gameObject.GetComponent<ScriptField> ().freeFloor) {
+							Vector3.Lerp (transform.position, touchDeltaPosition, speed * Time.deltaTime);
+						}
+
+					}
+
+				}//foreach
 
 			}
 
-
-
+			touch = false;
 		}//Fecha_if_Input_n1
 		
 
@@ -113,7 +130,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 			if (linePath [i] == gameObject && (lineUpPath != null || lineDownPath != null)) {
 
-				if (i != 1 || i != linePath.Count--) {
+				if (i != 1 || i != linePath.Count-1) {
 					walk.Add (linePath [i--]);
 					walk.Add (linePath [i++]);
 					walk.Add (lineUpPath [i]);
@@ -126,7 +143,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 					walk.Add (lineDownPath [i]);
 				}
 
-				if (i == linePath.Count--) {
+				if (i == linePath.Count-1) {
 					walk.Add (linePath [i--]);
 					walk.Add (lineUpPath [i]);
 					walk.Add (lineDownPath [i]);
@@ -136,7 +153,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 			if (linePath [i] == gameObject && (lineUpPath == null || lineDownPath != null)) {
 
-				if (i != 1 || i != linePath.Count--) {
+				if (i != 1 || i != linePath.Count-1) {
 					walk.Add (linePath [i--]);
 					walk.Add (linePath [i++]);
 					walk.Add (lineDownPath [i]);
@@ -147,7 +164,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 					walk.Add (lineDownPath [i]);
 				}
 
-				if (i == linePath.Count--) {
+				if (i == linePath.Count-1) {
 					walk.Add (linePath [i--]);
 					walk.Add (lineDownPath [i]);
 
@@ -157,7 +174,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 			if (linePath [i] == gameObject && (lineUpPath != null || lineDownPath == null)) {
 
-				if (i != 1 || i != linePath.Count--) {
+				if (i != 1 || i != linePath.Count-1) {
 					walk.Add (linePath [i--]);
 					walk.Add (linePath [i++]);
 					walk.Add (lineUpPath [i]);
@@ -168,7 +185,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 					walk.Add (lineUpPath [i]);
 				}
 
-				if (i == linePath.Count--) {
+				if (i == linePath.Count-1) {
 					walk.Add (linePath [i--]);
 					walk.Add (lineUpPath [i]);
 				}
@@ -176,7 +193,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 		}//FECHA_FOR_PERCORRE_LISTAS
 
 		if (other.CompareTag ("Enemy") == false) {
-			other.gameObject.GetComponent<scriptCampo> ().disponibilidade = false;
+			other.gameObject.GetComponent<ScriptField> ().freeFloor = false;
 		}
 
 	}//FECHA_OnTriggerEnter2D
@@ -184,26 +201,24 @@ public class movimentoPadraoPlayer : MonoBehaviour
 	void OnTriggerStay2D(Collider2D other)
 	{
 
-		foreach( GameObject objeto in linePath){
+		foreach (GameObject objeto in linePath) {
 
-			if (objeto.CompareTag ("Enemy")){
+			if (objeto.CompareTag ("Enemy")) {
 				//Ataque;
 			}
 
-			}//fecha_FOR
-
-
-
+		}//fecha_FOR
 
 	}//FECHA_OnTriggerStay2D
 
 
 
 	void OnTriggerExit2D(Collider2D other){
+		
 		walk.Clear ();
 		if (other.CompareTag ("Enemy") == false) {
-			other.gameObject.GetComponent<scriptCampo> ().disponibilidade = true;
+			other.gameObject.GetComponent<ScriptField> ().freeFloor = true;
 		}
 	}
-*/
+
 }//FECHA MONOBEHAVIOUR
