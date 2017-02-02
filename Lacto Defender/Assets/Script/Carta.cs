@@ -33,8 +33,9 @@ public class Carta : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
-			permission = true;
+		//if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
+		if(Input.GetMouseButton(0) && boxEmpty == true){
+		permission = true;
 			Destroy (gameObject);//carta explode, surge mooh
 		} else {
 			permission = false;

@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum status {atk, death, move };
+public enum statusPlayer {atk, death, move, standby };
 
 public class StatusPlayer : MonoBehaviour {
 
 	// FUNÇÃO DESSE SCRIPT É SER, A PRINICIPIO, APENAS UM DEPÓSITO DE INFORMAÇÃO SOBRE O PLAYER
 
-	public float life;
-	public float damage;
-	public float speed;
-	public float time;
+	public float life = 100f;
+	public float damage = 10f;
+	public float time = 100f;
 
 }

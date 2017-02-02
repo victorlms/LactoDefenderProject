@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class movimentoPadraoPlayer : MonoBehaviour 
+public class movimentoMoohMooh : MonoBehaviour 
 {
+
+	public statusPlayer statusAtual = statusPlayer.standby;
 
 	GameObject lineUp;
 	GameObject lineDown;
@@ -15,11 +17,13 @@ public class movimentoPadraoPlayer : MonoBehaviour
 	List<GameObject> walk;
 
 
-	int qtd;
+	//int qtd;
 	float speed = 2.5f;
 
 	bool touch = false;
 
+	public Color altColor;
+	public GUITexture rend;
 	void Start () {
 		
 		linePath = new List<GameObject>();
@@ -30,6 +34,11 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 		walk = new List<GameObject>();
 
+		altColor.g = 0f;         
+		altColor.r = 50f;        
+		altColor.b = 0f;         
+		altColor.a = 0f; 
+
 
 	}//FECHA_START
 		
@@ -37,9 +46,15 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 
 
-		if (Input.GetTouch (0).phase == TouchPhase.Began) {
-			
+		//if (Input.GetTouch (0).phase == TouchPhase.Began) {
+		if(Input.GetMouseButtonDown(0) && Input.mousePosition == transform.position){	
 			//delimita na tela os campos disponiveis
+
+			foreach (GameObject objeto in walk) {
+				rend = objeto.gameObject.GetComponent<GUITexture>();
+				rend.color = altColor;
+				Debug.Log("ALTEROU COR DO WALK");
+			}
 
 			touch = true;
 
@@ -69,7 +84,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		present = other.gameObject;
+		//present = other.gameObject;
 		if (linePath != other.transform.GetComponentInParent<LineIndentificator> ().path) {
 
 			linePath.Clear ();
@@ -79,7 +94,7 @@ public class movimentoPadraoPlayer : MonoBehaviour
 
 			linePath = other.transform.GetComponentInParent<LineIndentificator> ().path;
 			GameObject grid = other.transform.parent.parent.gameObject;
-			qtd = linePath.Count;
+			//qtd = linePath.Count;
 
 			switch (other.transform.parent.tag) {
 
