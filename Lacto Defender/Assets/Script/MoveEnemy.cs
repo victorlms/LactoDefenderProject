@@ -29,14 +29,14 @@ public class MoveEnemy : MonoBehaviour
 		case status.atk:
 			Debug.Log ("ta atacando!");
 			/* Escrever o codigo da animação quando tiver */
-			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
+			//transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 
 
 			break;
 		case status.death:
-			gameObject.GetComponent<StatusEnemy> ().speed = 0;
+			//gameObject.GetComponent<StatusEnemy> ().speed = 0;
 			//ESCREVER NESSA LINHA A ANIMAÇÃO DO ALIEN MORRENDO;
-			Destroy(gameObject);
+			//Destroy(gameObject);
 			break;
 		}
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Carta : MonoBehaviour {
 
-	public float speed = 2.0f;
+	public float speed = 2.0f, _horizontalLimit = 2.5f, _verticalLimit = 2.5f;
 
 	public bool boxEmpty;
 	public bool permission;
@@ -14,34 +14,60 @@ public class Carta : MonoBehaviour {
 	public GameObject clone;
 
 	static Vector3 vetorOriginal;
+	Transform cachedTransform;
 
 
 	void start ()
 	{
-		vetorOriginal = transform.position;
+		cachedTransform = transform;
+		vetorOriginal = cachedTransform.position;
 	}
 
 	void Update () 
 	{
+		Vector2 deltaPosition = Input.GetTouch (0).deltaPosition;
+
+		switch (Input.GetTouch (0).phase) {
+			
+		case TouchPhase.Began:
+			break;
+
+		case TouchPhase.Moved:
+			DragObject (deltaPosition);
+			break;
+
+		case TouchPhase.Ended:
+			break;
+
+		}
 
 	}//FECHA_UPDATE	
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
-	}//FECHA_OnTriggerEnter
+		if (other.gameObject.CompareTag ("Box")) {
+			boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
+			permission = true;
+		} else {
+			permission = false;
+		}//ELSE
+
+		}//FECHA_OnTriggerEnter
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		//if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
-		if(Input.GetMouseButton(0) && boxEmpty == true){
-		permission = true;
-			Destroy (gameObject);//carta explode, surge mooh
-		} else {
-			permission = false;
-			boxEmpty = false;
-			transform.position = Vector3.Lerp (transform.position, vetorOriginal, Time.deltaTime * speed);
+		if (permission == true) {
+			
+			//if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
+			if (Input.GetMouseButtonUp (0) && boxEmpty == true) {
+				permission = true;
+				Destroy (gameObject);//carta explode, surge mooh
+			} else if (boxEmpty == false) {
+				permission = false;
+				boxEmpty = false;
+				transform.position = Vector3.Lerp (transform.position, vetorOriginal, Time.deltaTime * speed);
 	
+			}//ELSE_IF
 		}
 	}//FECHA_OnTriggerStay
 
@@ -59,4 +85,9 @@ public class Carta : MonoBehaviour {
 		}
 	}//Fecha_OnTriggerExit
 
+	void DragObject(Vector2 deltaPosition){
+
+		cachedTransform.position = Vector2.Lerp (vetorOriginal, deltaPosition, Time.deltaTime * speed);
+	}
+		
 }//Fecha_CartaVaca
