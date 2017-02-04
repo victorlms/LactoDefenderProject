@@ -16,11 +16,19 @@ public class ScriptField : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+	
+
+
 	}
 
 	void OnTriggerStay2D(Collider2D other){
 		type = other.gameObject;
 	}
+
+	void OnTriggerExit2D(Collider2D other){
+		type = null;
+	}
+
+
 
 }

@@ -7,6 +7,9 @@ public class movimentoMoohMooh : MonoBehaviour
 
 	public statusPlayer statusAtual = statusPlayer.standby;
 
+	public string funciona;
+	public int conta = 0;
+
 	GameObject lineUp;
 	GameObject lineDown;
 	GameObject present;
@@ -21,9 +24,9 @@ public class movimentoMoohMooh : MonoBehaviour
 	float speed = 2.5f;
 
 	bool touch = false;
+	bool walkTouch = false;
+	public SpriteRenderer rend;
 
-	public Color altColor;
-	public GUITexture rend;
 	void Start () {
 		
 		linePath = new List<GameObject>();
@@ -34,10 +37,7 @@ public class movimentoMoohMooh : MonoBehaviour
 
 		walk = new List<GameObject>();
 
-		altColor.g = 0f;         
-		altColor.r = 50f;        
-		altColor.b = 0f;         
-		altColor.a = 0f; 
+	
 
 
 	}//FECHA_START
@@ -45,14 +45,14 @@ public class movimentoMoohMooh : MonoBehaviour
 	void Update () {
 
 
-
-		//if (Input.GetTouch (0).phase == TouchPhase.Began) {
-		if(Input.GetMouseButtonDown(0) && Input.mousePosition == transform.position){	
+		Vector2 objPosition = new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y);
+		if (Input.GetTouch (0).phase == TouchPhase.Began && (Input.GetTouch(0).position == objPosition)) {
+	
 			//delimita na tela os campos disponiveis
 
 			foreach (GameObject objeto in walk) {
-				rend = objeto.gameObject.GetComponent<GUITexture>();
-				rend.color = altColor;
+				rend = objeto.gameObject.GetComponent<SpriteRenderer>();
+				rend.color = new Color (0,0,1,1);
 				Debug.Log("ALTEROU COR DO WALK");
 			}
 
@@ -60,14 +60,16 @@ public class movimentoMoohMooh : MonoBehaviour
 
 			if ((touch == true) && (Input.GetTouch (1).phase == TouchPhase.Began)) {
 
-				Vector3 touchDeltaPosition = Input.GetTouch (1).deltaPosition;
+				Vector2 touchDeltaPosition = Input.GetTouch (1).deltaPosition;
 
 				foreach (GameObject campo in walk) {
 
-					if (campo.transform.position == touchDeltaPosition) {
+					Vector2 campoPosition = new Vector2 (campo.transform.position.x, campo.transform.position.y);
+
+					if (campoPosition == touchDeltaPosition) {
 
 						if (campo.gameObject.GetComponent<ScriptField> ().freeFloor) {
-							Vector3.Lerp (transform.position, touchDeltaPosition, speed * Time.deltaTime);
+							Vector2.Lerp (transform.position, touchDeltaPosition, speed * Time.deltaTime);
 						}
 
 					}
@@ -78,7 +80,10 @@ public class movimentoMoohMooh : MonoBehaviour
 
 			touch = false;
 		}//Fecha_if_Input_n1
-		
+
+
+
+	
 
 	}//FECHA_UPDATE
 
@@ -216,14 +221,6 @@ public class movimentoMoohMooh : MonoBehaviour
 	void OnTriggerStay2D(Collider2D other)
 	{
 
-		foreach (GameObject objeto in linePath) {
-
-			if (objeto.CompareTag ("Enemy")) {
-				//Ataque;
-			}
-
-		}//fecha_FOR
-
 	}//FECHA_OnTriggerStay2D
 
 
@@ -235,5 +232,19 @@ public class movimentoMoohMooh : MonoBehaviour
 			other.gameObject.GetComponent<ScriptField> ().freeFloor = true;
 		}
 	}
+
+	void OnMouseDown(){
+
+
+
+		foreach (GameObject campo in walk) {
+
+			conta++;
+			campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 0, 1, 1);
+
+		}
+
+	}
+
 
 }//FECHA MONOBEHAVIOUR

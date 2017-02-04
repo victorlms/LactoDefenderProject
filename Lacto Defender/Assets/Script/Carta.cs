@@ -4,90 +4,60 @@ using UnityEngine;
 
 public class Carta : MonoBehaviour {
 
-	public float speed = 2.0f, _horizontalLimit = 2.5f, _verticalLimit = 2.5f;
+	public float speed = 5.0f;
 
 	public bool boxEmpty;
 	public bool permission;
 
+	Vector2 offset;
+
 	ScriptField reconhece;
 
-	public GameObject clone;
+	public GameObject player;
 
-	static Vector3 vetorOriginal;
-	Transform cachedTransform;
-
+	Vector2 vetorOriginal;
+	Vector2 rotaOriginal;
+	Vector2 _mousePosition;
 
 	void start ()
 	{
-		cachedTransform = transform;
-		vetorOriginal = cachedTransform.position;
+		
+		vetorOriginal = new Vector2(transform.position.x, transform.position.y);
+	
 	}
 
 	void Update () 
 	{
-		Vector2 deltaPosition = Input.GetTouch (0).deltaPosition;
+		Vector2 objPosition = Camera.main.ScreenToWorldPoint(vetorOriginal);
 
-		switch (Input.GetTouch (0).phase) {
-			
-		case TouchPhase.Began:
-			break;
+		if (Input.touchCount > 0) {
 
-		case TouchPhase.Moved:
-			DragObject (deltaPosition);
-			break;
+			if (Input.GetTouch (0).phase == TouchPhase.Began && Input.GetTouch (0).position == objPosition)
+			{
 
-		case TouchPhase.Ended:
-			break;
+				Vector2 _deltaPosition = Input.GetTouch (0).deltaPosition;
 
+
+				player = Instantiate (player, _deltaPosition, transform.rotation);
+
+				if (Input.GetTouch (0).phase == TouchPhase.Moved) {
+
+					player.transform.position = Vector2.Lerp (player.transform.position, Input.GetTouch (0).deltaPosition, speed * Time.deltaTime);
+
+				}
+
+			}
 		}
+			
+		_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 
 	}//FECHA_UPDATE	
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.gameObject.CompareTag ("Box")) {
-			boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
-			permission = true;
-		} else {
-			permission = false;
-		}//ELSE
+	void OnMouseDown(){
 
-		}//FECHA_OnTriggerEnter
+		Instantiate (player, _mousePosition, Quaternion.identity);
 
-	void OnTriggerStay2D(Collider2D other)
-	{
-		if (permission == true) {
-			
-			//if (Input.GetTouch (0).phase == TouchPhase.Ended && boxEmpty == true) {
-			if (Input.GetMouseButtonUp (0) && boxEmpty == true) {
-				permission = true;
-				Destroy (gameObject);//carta explode, surge mooh
-			} else if (boxEmpty == false) {
-				permission = false;
-				boxEmpty = false;
-				transform.position = Vector3.Lerp (transform.position, vetorOriginal, Time.deltaTime * speed);
-	
-			}//ELSE_IF
-		}
-	}//FECHA_OnTriggerStay
-
-	void OnTriggerExit2D(Collider2D other)
-	{
-		if(permission == true)
-		{
-			Instantiate (clone, other.gameObject.GetComponent<Transform> ().position, other.gameObject.GetComponent<Transform> ().rotation);
-			boxEmpty = false;
-			permission = false;
-			other.gameObject.GetComponent<ScriptField> ().freeFloor = false;
-			Debug.Log ("Valor passou de TRUE para FALSE");
-		} else {
-			Debug.Log ("Indisponível");
-		}
-	}//Fecha_OnTriggerExit
-
-	void DragObject(Vector2 deltaPosition){
-
-		cachedTransform.position = Vector2.Lerp (vetorOriginal, deltaPosition, Time.deltaTime * speed);
 	}
 		
+
 }//Fecha_CartaVaca
