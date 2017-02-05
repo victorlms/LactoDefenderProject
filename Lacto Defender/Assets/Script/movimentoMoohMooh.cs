@@ -19,16 +19,21 @@ public class movimentoMoohMooh : MonoBehaviour
 	List<GameObject> lineDownPath;
 	List<GameObject> walk;
 
+	spawnPlayer lista;
+	GameObject campo;
 
-	//int qtd;
 	float speed = 2.5f;
 
 	bool touch = false;
 	bool walkTouch = false;
-	public SpriteRenderer rend;
+	public SpriteRenderer rend, backRend;
+
+	public atkPlayer estado;
 
 	void Start () {
-		
+
+		estado = GetComponent<atkPlayer> ();
+
 		linePath = new List<GameObject>();
 
 		lineUpPath = new List<GameObject>();
@@ -37,7 +42,8 @@ public class movimentoMoohMooh : MonoBehaviour
 
 		walk = new List<GameObject>();
 
-	
+		lista = GetComponent<spawnPlayer>();
+		campo = lista.objeto [0].gameObject;
 
 
 	}//FECHA_START
@@ -46,14 +52,25 @@ public class movimentoMoohMooh : MonoBehaviour
 
 
 		Vector2 objPosition = new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y);
+
 		if (Input.GetTouch (0).phase == TouchPhase.Began && (Input.GetTouch(0).position == objPosition)) {
 	
 			//delimita na tela os campos disponiveis
 
 			foreach (GameObject objeto in walk) {
-				rend = objeto.gameObject.GetComponent<SpriteRenderer>();
-				rend.color = new Color (0,0,1,1);
-				Debug.Log("ALTEROU COR DO WALK");
+				switch (objeto.tag) {
+
+				case "Enemy":
+					estado.activate = true;
+					break;
+
+				default:
+					estado.activate = false;
+					break;
+
+				}
+
+
 			}
 
 			touch = true;
@@ -80,17 +97,14 @@ public class movimentoMoohMooh : MonoBehaviour
 
 			touch = false;
 		}//Fecha_if_Input_n1
-
-
-
-	
-
+			
 	}//FECHA_UPDATE
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		//present = other.gameObject;
-		if (linePath != other.transform.GetComponentInParent<LineIndentificator> ().path) {
+
+		if (linePath != other.transform.GetComponentInParent<LineIndentificator> ().path && linePath != null) {
 
 			linePath.Clear ();
 			lineUpPath.Clear ();
@@ -240,7 +254,6 @@ public class movimentoMoohMooh : MonoBehaviour
 		foreach (GameObject campo in walk) {
 
 			conta++;
-			campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 0, 1, 1);
 
 		}
 

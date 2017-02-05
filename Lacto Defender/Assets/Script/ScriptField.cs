@@ -5,7 +5,6 @@ using UnityEngine;
 public class ScriptField : MonoBehaviour {
 
 	public bool freeFloor = true;
-
 	public GameObject type;
 
 	// Use this for initialization
