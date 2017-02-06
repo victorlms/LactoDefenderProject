@@ -7,6 +7,8 @@ public class MoveEnemy : MonoBehaviour
 	public status enemyStatus = status.move;	
 	List<GameObject> line;
 	GameObject checkType;
+	public GameObject obj;
+	float backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
 
 	void start()
 	{
@@ -19,9 +21,9 @@ public class MoveEnemy : MonoBehaviour
 		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
 			enemyStatus = status.death;
 		
-		switch (enemyStatus) 
-		{
-			case status.move:
+		switch (enemyStatus) {
+
+		case status.move:
 			
 			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
@@ -29,21 +31,26 @@ public class MoveEnemy : MonoBehaviour
 		case status.atk:
 			Debug.Log ("ta atacando!");
 			/* Escrever o codigo da animação quando tiver */
-			//transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
-
-
+			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
+
+
 		case status.death:
-			//gameObject.GetComponent<StatusEnemy> ().speed = 0;
+			gameObject.GetComponent<StatusEnemy> ().speed = 0;
 			//ESCREVER NESSA LINHA A ANIMAÇÃO DO ALIEN MORRENDO;
-			//Destroy(gameObject);
+			Destroy(gameObject);
 			break;
 		}
 
 
-
 	
+	}//FECHA UPDATE PORRA
+
+	void OnTriggerEnter2D(Collider2D other){
+		if (other.tag == "Player")
+			gameObject.GetComponent<StatusEnemy> ().speed = 0;
 	}
+
 	void OnTriggerStay2D(Collider2D other)
 	{
 		
@@ -58,7 +65,15 @@ public class MoveEnemy : MonoBehaviour
 					//ENTRA EM MODO DE ATAQUE
 					enemyStatus = status.atk;
 				}
-		}
+
+		}//fecha foreach
+	}//fecha stay
+
+	void OnTriggerExit2D(Collider2D other){
+
+		if (other.tag == "Player")
+			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
+
 	}
 
 }
