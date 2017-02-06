@@ -10,11 +10,11 @@ public class movimentoMoohMooh : MonoBehaviour
 	public string funciona;
 	public int conta = 0;
 
-	GameObject lineUp;
-	GameObject lineDown;
-	GameObject present;
+	LineIndentificator lineUp;
+	LineIndentificator lineDown;
+	LineIndentificator present;
 
-	List<GameObject> linePath;
+	public List<GameObject> linePath;
 	List<GameObject> lineUpPath;
 	List<GameObject> lineDownPath;
 	List<GameObject> walk;
@@ -33,8 +33,6 @@ public class movimentoMoohMooh : MonoBehaviour
 	void Start () {
 
 		estado = GetComponent<atkPlayer> ();
-
-		linePath = new List<GameObject>();
 
 		lineUpPath = new List<GameObject>();
 		lineDownPath = new List<GameObject>();
@@ -104,130 +102,134 @@ public class movimentoMoohMooh : MonoBehaviour
 	{
 		//present = other.gameObject;
 
-		if (linePath != other.transform.GetComponentInParent<LineIndentificator> ().path && linePath != null) {
+		if (other.gameObject.tag == "Box") {
+			LineIndentificator scriptCaminho = other.transform.GetComponentInParent<LineIndentificator> ();
+			if (linePath != scriptCaminho.path) {
 
-			linePath.Clear ();
-			lineUpPath.Clear ();
-			lineDownPath.Clear ();
+				linePath.Clear ();
+				lineUpPath.Clear ();
+				lineDownPath.Clear ();
 
 
-			linePath = other.transform.GetComponentInParent<LineIndentificator> ().path;
-			GameObject grid = other.transform.parent.parent.gameObject;
-			//qtd = linePath.Count;
+				foreach (GameObject objeto in scriptCaminho.path) {
 
-			switch (other.transform.parent.tag) {
+					linePath.Add  (objeto);
 
-			case "Linha1":
+				}
+				GameObject grid = other.gameObject.transform.parent.parent.gameObject;
+				//qtd = linePath.Count;
 
-				lineUp = null;
-				lineUpPath = null;
-				lineDown = grid.gameObject.transform.GetChild (2).gameObject;
-				lineDownPath = lineDown.gameObject.GetComponent<LineIndentificator> ().path;
-				break;
+				switch (other.gameObject.transform.parent.tag) {
 
-			case "Linha2":
-				lineUp = grid.gameObject.transform.GetChild (1).gameObject;
-				lineUpPath = lineUp.gameObject.GetComponent<LineIndentificator> ().path;
-				lineDown = grid.gameObject.transform.GetChild (3).gameObject;
-				lineDownPath = lineDown.gameObject.GetComponent<LineIndentificator> ().path;
-				break;
+				case "Linha1":
+
+					lineUp = null;
+					lineUpPath = null;
+					lineDown = grid.gameObject.transform.GetChild (2).gameObject.GetComponent<LineIndentificator> ();
+					lineDownPath = new List<GameObject>(lineDown.path);
+					break;
+
+				case "Linha2":
+					lineUp = grid.gameObject.transform.GetChild (1).gameObject.GetComponent<LineIndentificator> ();
+					lineUpPath = new List<GameObject> (lineUp.path);
+					lineDown = grid.gameObject.transform.GetChild (3).gameObject.GetComponent<LineIndentificator> ();
+					lineDownPath =  new List<GameObject> (lineDown.path);
+					break;
 	
 
-			case "Linha3":
-				lineUp = grid.gameObject.transform.GetChild (2).gameObject;
-				lineUpPath = lineUp.gameObject.GetComponent<LineIndentificator> ().path;
-				lineDown = grid.gameObject.transform.GetChild (4).gameObject;
-				lineDownPath = lineDown.gameObject.GetComponent<LineIndentificator> ().path;
-				break;
+				case "Linha3":
+					lineUp = grid.gameObject.transform.GetChild (2).gameObject.GetComponent<LineIndentificator> ();
+					lineUpPath =  new List<GameObject>(lineUp.path);
+					lineDown = grid.gameObject.transform.GetChild (4).gameObject.GetComponent<LineIndentificator> ();
+					lineDownPath = new List<GameObject> (lineDown.path);
+					break;
 
 
-			case "Linha4":
-				lineUp = grid.gameObject.transform.GetChild (3).gameObject;
-				lineUpPath = lineUp.gameObject.GetComponent<LineIndentificator> ().path;
-				lineDown = grid.gameObject.transform.GetChild (5).gameObject;
-				lineDownPath = lineDown.gameObject.GetComponent<LineIndentificator> ().path;
-				break;
+				case "Linha4":
+					lineUp = grid.gameObject.transform.GetChild (3).gameObject.GetComponent<LineIndentificator> ();
+					lineUpPath =  new List<GameObject>(lineUp.path);
+					lineDown = grid.gameObject.transform.GetChild (5).gameObject.GetComponent<LineIndentificator> ();
+					lineDownPath =  new List<GameObject> (lineDown.path);
+					break;
 
 
-			case "Linha5":
-				lineUp = grid.gameObject.transform.GetChild (4).gameObject;
-				lineUpPath = lineUp.gameObject.GetComponent<LineIndentificator> ().path;
-				lineDown = null;
-				lineDownPath = null;
-				break;
+				case "Linha5":
+					lineUp = grid.gameObject.transform.GetChild (4).gameObject.GetComponent<LineIndentificator> ();
+					lineUpPath =  new List<GameObject> (lineUp.path);
+					lineDown = null;
+					lineDownPath = null;
+					break;
 
-			}//Fecha_Switch
-		}//Fecha_IF
+				}//Fecha_Switch
+			}//Fecha_IF
 
-		//PERCORRE LISTAS PARA IDENTIFICAR POSSIBILIDADES DE MOVIMENTO
-		for (int i = 0; i < linePath.Count; i++) {
+			//PERCORRE LISTAS PARA IDENTIFICAR POSSIBILIDADES DE MOVIMENTO
+			for (int i = 0; i < linePath.Count; i++) {
 
-			if (linePath [i] == gameObject && (lineUpPath != null || lineDownPath != null)) {
+				if (linePath [i].gameObject.GetComponent<ScriptField> ().type == gameObject && (lineUpPath != null || lineDownPath != null)) {
 
-				if (i != 1 || i != linePath.Count-1) {
-					walk.Add (linePath [i--]);
-					walk.Add (linePath [i++]);
-					walk.Add (lineUpPath [i]);
-					walk.Add (lineDownPath [i]);
-				}
+					if (i != 1 || i != linePath.Count - 1) {
+						walk.Add (linePath [i--].gameObject);
+						walk.Add (linePath [i++].gameObject);
+						walk.Add (lineUpPath [i].gameObject);
+						walk.Add (lineDownPath [i].gameObject);
+					}
 
-				if (i == 1) {
-					walk.Add (linePath [i++]);
-					walk.Add (lineUpPath [i]);
-					walk.Add (lineDownPath [i]);
-				}
+					if (i == 1) {
+						walk.Add (linePath [i++].gameObject);
+						walk.Add (lineUpPath [i].gameObject);
+						walk.Add (lineDownPath [i].gameObject);
+					}
 
-				if (i == linePath.Count-1) {
-					walk.Add (linePath [i--]);
-					walk.Add (lineUpPath [i]);
-					walk.Add (lineDownPath [i]);
+					if (i == linePath.Count - 1) {
+						walk.Add (linePath [i--].gameObject);
+						walk.Add (lineUpPath [i].gameObject);
+						walk.Add (lineDownPath [i].gameObject);
 
-				}
-			}//FECHA_IF_BLOCO1
+					}
+				}//FECHA_IF_BLOCO1
 
-			if (linePath [i] == gameObject && (lineUpPath == null || lineDownPath != null)) {
+				if (linePath [i].gameObject.GetComponent<ScriptField> ().type == gameObject && (lineUpPath == null || lineDownPath != null)) {
 
-				if (i != 1 || i != linePath.Count-1) {
-					walk.Add (linePath [i--]);
-					walk.Add (linePath [i++]);
-					walk.Add (lineDownPath [i]);
-				}
+					if (i != 1 || i != linePath.Count - 1) {
+						walk.Add (linePath [i--].gameObject);
+						walk.Add (linePath [i++].gameObject);
+						walk.Add (lineDownPath [i].gameObject);
+					}
 
-				if (i == 1) {
-					walk.Add (linePath [i++]);
-					walk.Add (lineDownPath [i]);
-				}
+					if (i == 1) {
+						walk.Add (linePath [i++].gameObject);
+						walk.Add (lineDownPath [i].gameObject);
+					}
 
-				if (i == linePath.Count-1) {
-					walk.Add (linePath [i--]);
-					walk.Add (lineDownPath [i]);
+					if (i == linePath.Count - 1) {
+						walk.Add (linePath [i--].gameObject);
+						walk.Add (lineDownPath [i].gameObject);
 
-				}
+					}
 
-			}//FECHA_IF_BLOCO2
+				}//FECHA_IF_BLOCO2
 
-			if (linePath [i] == gameObject && (lineUpPath != null || lineDownPath == null)) {
+				if (linePath [i].gameObject.GetComponent<ScriptField> ().type == gameObject && (lineUpPath != null || lineDownPath == null)) {
 
-				if (i != 1 || i != linePath.Count-1) {
-					walk.Add (linePath [i--]);
-					walk.Add (linePath [i++]);
-					walk.Add (lineUpPath [i]);
-				}
+					if (i != 1 || i != linePath.Count - 1) {
+						walk.Add (linePath [i--].gameObject);
+						walk.Add (linePath [i++].gameObject);
+						walk.Add (lineUpPath [i].gameObject);
+					}
 
-				if (i == 1) {
-					walk.Add (linePath [i++]);
-					walk.Add (lineUpPath [i]);
-				}
+					if (i == 1) {
+						walk.Add (linePath [i++].gameObject);
+						walk.Add (lineUpPath [i].gameObject);
+					}
 
-				if (i == linePath.Count-1) {
-					walk.Add (linePath [i--]);
-					walk.Add (lineUpPath [i]);
-				}
-			}//FECHA_IF_BLOCO3
-		}//FECHA_FOR_PERCORRE_LISTAS
-
-		if (other.CompareTag ("Enemy") == false) {
-			other.gameObject.GetComponent<ScriptField> ().freeFloor = false;
+					if (i == linePath.Count - 1) {
+						walk.Add (linePath [i--].gameObject);
+						walk.Add (lineUpPath [i].gameObject);
+					}
+				}//FECHA_IF_BLOCO3
+			}//FECHA_FOR_PERCORRE_LISTAS
+				
 		}
 
 	}//FECHA_OnTriggerEnter2D
@@ -240,9 +242,9 @@ public class movimentoMoohMooh : MonoBehaviour
 
 
 	void OnTriggerExit2D(Collider2D other){
-		
-		walk.Clear ();
-		if (other.CompareTag ("Enemy") == false) {
+
+		if (other.transform.tag == "Box") {
+			walk.Clear ();
 			other.gameObject.GetComponent<ScriptField> ().freeFloor = true;
 		}
 	}

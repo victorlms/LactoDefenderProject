@@ -28,7 +28,7 @@ public class spawnPlayer : MonoBehaviour {
 		if (onField == false) {
 			//transform.position = Vector2.Lerp (gameObject.transform.position, _mousePosition, speed * Time.deltaTime);
 			transform.position = _mousePosition;
-			gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 0.5f);
+			//gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 0.5f);
 		}
 
 	}
@@ -91,7 +91,7 @@ public class spawnPlayer : MonoBehaviour {
 						onField = true;
 						boxEmpty = false;
 						permission = false;
-						gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
+					//	gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
 
 					}
 					if (onField == false && permission == false) {

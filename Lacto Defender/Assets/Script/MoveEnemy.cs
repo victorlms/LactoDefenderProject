@@ -8,7 +8,7 @@ public class MoveEnemy : MonoBehaviour
 	List<GameObject> line;
 	GameObject checkType;
 	public GameObject obj;
-	float backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
+	float backup_speed; //= gameObject.GetComponent<StatusEnemy> ().speed;
 
 	void start()
 	{
