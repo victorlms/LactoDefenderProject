@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//QUESTÃO A SER RESOLVIDA: COLOCAR OS INIMIGOS PRA PARAREM NA FRENTE DA VACA NÃO TRANSFORMA ELAS NO BOI?
 public class MoveEnemy : MonoBehaviour 
 {
 	public status enemyStatus = status.move;	
@@ -46,6 +46,7 @@ public class MoveEnemy : MonoBehaviour
 	
 	}//FECHA UPDATE PORRA
 
+
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Player")
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
@@ -60,11 +61,11 @@ public class MoveEnemy : MonoBehaviour
 		{
 			checkType = obj.transform.GetComponentInParent <ScriptField> ().type;
 			
-			if (checkType.CompareTag("Player") && other.transform.parent.tag == obj.transform.parent.tag)
-				{
-					//ENTRA EM MODO DE ATAQUE
-					enemyStatus = status.atk;
-				}
+			if (checkType.CompareTag ("Player") && other.transform.parent.tag == obj.transform.parent.tag) {
+				//ENTRA EM MODO DE ATAQUE
+				enemyStatus = status.atk;
+			} else
+				enemyStatus = status.move;// faz ele voltar a andar sem atacar
 
 		}//fecha foreach
 	}//fecha stay
@@ -73,7 +74,7 @@ public class MoveEnemy : MonoBehaviour
 
 		if (other.tag == "Player")
 			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
-
+		
 	}
 
 }
