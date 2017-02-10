@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class movimentoMoohMooh : MonoBehaviour 
 {
-
+	
 	public statusPlayer statusAtual = statusPlayer.standby;
 
 	public string funciona;
@@ -48,7 +48,7 @@ public class movimentoMoohMooh : MonoBehaviour
 		
 	void Update () {
 
-
+		
 		Vector2 objPosition = new Vector2 (gameObject.transform.position.x, gameObject.transform.position.y);
 
 		if (Input.GetTouch (0).phase == TouchPhase.Began && (Input.GetTouch(0).position == objPosition)) {
@@ -104,7 +104,6 @@ public class movimentoMoohMooh : MonoBehaviour
 
 		if (other.gameObject.tag == "Box") {
 			LineIndentificator scriptCaminho = other.transform.GetComponentInParent<LineIndentificator> ();
-			if (linePath != scriptCaminho.path) {
 
 				linePath.Clear ();
 				lineUpPath.Clear ();
@@ -113,7 +112,7 @@ public class movimentoMoohMooh : MonoBehaviour
 
 				foreach (GameObject objeto in scriptCaminho.path) {
 
-					linePath.Add  (objeto);
+					linePath.Add  (objeto.gameObject);
 
 				}
 				GameObject grid = other.gameObject.transform.parent.parent.gameObject;
@@ -126,42 +125,63 @@ public class movimentoMoohMooh : MonoBehaviour
 					lineUp = null;
 					lineUpPath = null;
 					lineDown = grid.gameObject.transform.GetChild (2).gameObject.GetComponent<LineIndentificator> ();
-					lineDownPath = new List<GameObject>(lineDown.path);
+					foreach (GameObject campo in lineDown.path) {
+						lineDownPath.Add(campo);
+					}
 					break;
 
 				case "Linha2":
 					lineUp = grid.gameObject.transform.GetChild (1).gameObject.GetComponent<LineIndentificator> ();
-					lineUpPath = new List<GameObject> (lineUp.path);
+
+					foreach (GameObject campo in lineUp.path) {
+						lineUpPath.Add (campo);
+					}
+
 					lineDown = grid.gameObject.transform.GetChild (3).gameObject.GetComponent<LineIndentificator> ();
-					lineDownPath =  new List<GameObject> (lineDown.path);
+					foreach (GameObject campo in lineDown.path) {
+						lineDownPath.Add(campo);
+					}
 					break;
 	
 
 				case "Linha3":
 					lineUp = grid.gameObject.transform.GetChild (2).gameObject.GetComponent<LineIndentificator> ();
-					lineUpPath =  new List<GameObject>(lineUp.path);
+					foreach (GameObject campo in lineUp.path) {
+						lineUpPath.Add (campo);
+					}
+
 					lineDown = grid.gameObject.transform.GetChild (4).gameObject.GetComponent<LineIndentificator> ();
-					lineDownPath = new List<GameObject> (lineDown.path);
+					foreach (GameObject campo in lineDown.path) {
+						lineDownPath.Add(campo);
+					}
 					break;
 
 
 				case "Linha4":
 					lineUp = grid.gameObject.transform.GetChild (3).gameObject.GetComponent<LineIndentificator> ();
-					lineUpPath =  new List<GameObject>(lineUp.path);
+					foreach (GameObject campo in lineUp.path) {
+						lineUpPath.Add (campo);
+					}
+
 					lineDown = grid.gameObject.transform.GetChild (5).gameObject.GetComponent<LineIndentificator> ();
-					lineDownPath =  new List<GameObject> (lineDown.path);
+					foreach (GameObject campo in lineDown.path) {
+						lineDownPath.Add(campo);
+					}
 					break;
 
 
 				case "Linha5":
 					lineUp = grid.gameObject.transform.GetChild (4).gameObject.GetComponent<LineIndentificator> ();
-					lineUpPath =  new List<GameObject> (lineUp.path);
+					foreach (GameObject campo in lineUp.path) {
+						lineUpPath.Add (campo);
+					}
+
 					lineDown = null;
 					lineDownPath = null;
 					break;
 
 				}//Fecha_Switch
-			}//Fecha_IF
+			
 
 			//PERCORRE LISTAS PARA IDENTIFICAR POSSIBILIDADES DE MOVIMENTO
 			for (int i = 0; i < linePath.Count; i++) {
