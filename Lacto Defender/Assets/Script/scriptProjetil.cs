@@ -16,7 +16,7 @@ public class scriptProjetil : MonoBehaviour {
 	void Update () {
 
 
-		transform.position.x++;
+	//	transform.position.x++;
 
 	}
 

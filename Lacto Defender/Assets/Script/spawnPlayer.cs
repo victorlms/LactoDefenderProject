@@ -5,10 +5,16 @@ using UnityEngine;
 public class spawnPlayer : MonoBehaviour {
 
 	public float speed = 100;
+
 	public bool boxEmpty = false;
 	public bool permission = false;
 	public bool onField = false;
+	bool being = false;
+
+
+
 	public ScriptField campo;
+
 
 	Vector2 _mousePosition;
 
@@ -18,6 +24,7 @@ public class spawnPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		objeto = new List<GameObject> ();
+
 	}
 	
 	// Update is called once per frame
@@ -30,6 +37,8 @@ public class spawnPlayer : MonoBehaviour {
 			transform.position = _mousePosition;
 			//gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 0.5f);
 		}
+
+
 
 	}
 
@@ -53,9 +62,10 @@ public class spawnPlayer : MonoBehaviour {
 			
 
 		if (other.gameObject == objeto [0]) {
-			
+
 
 			if (other.tag == "Box") {
+
 				/*
 				if (Input.GetTouch (0).phase == TouchPhase.Ended) {
 
@@ -101,12 +111,23 @@ public class spawnPlayer : MonoBehaviour {
 
 					}
 
+					if (onField == true && being == true) {
+
+						gameObject.transform.position = Vector2.Lerp (gameObject.transform.position, other.transform.position, speed * Time.deltaTime);
+						if (gameObject.transform.GetComponent<Card> ().walking == true) {
+
+							being = false;
+
+						} else {
+							being = true;
+						}
+					}
+
 				}
 				
 			}
 
-			if (onField == true)
-				gameObject.transform.position = Vector2.Lerp (transform.position, other.transform.position, speed * Time.deltaTime);
+
 
 		}
 

@@ -40,9 +40,6 @@ public class movimentoMoohMooh : MonoBehaviour
 
 		walk = new List<GameObject>();
 
-		lista = GetComponent<spawnPlayer>();
-		campo = lista.objeto [0].gameObject;
-
 
 	}//FECHA_START
 		
