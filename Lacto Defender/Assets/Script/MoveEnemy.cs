@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//QUESTÃO A SER RESOLVIDA: COLOCAR OS INIMIGOS PRA PARAREM NA FRENTE DA VACA NÃO TRANSFORMA ELAS NO BOI?
+//QUESTÃO A SER RESOLVIDA: fazer caixa de colisão piscar?
 public class MoveEnemy : MonoBehaviour 
 {
 	public status enemyStatus = status.move;	
@@ -29,8 +29,9 @@ public class MoveEnemy : MonoBehaviour
 			break;
 
 		case status.atk:
-			Debug.Log ("ta atacando!");
+			
 			/* Escrever o codigo da animação quando tiver */
+			//Instantiate(Object FisicalAtk)  ;
 			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
 
