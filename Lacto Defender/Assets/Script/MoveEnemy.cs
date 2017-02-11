@@ -8,7 +8,7 @@ public class MoveEnemy : MonoBehaviour
 	List<GameObject> line;
 	GameObject checkType;
 	public GameObject obj;
-	float backup_speed; //= gameObject.GetComponent<StatusEnemy> ().speed;
+	float backup_speed; 
 
 	void start()
 	{
@@ -31,7 +31,7 @@ public class MoveEnemy : MonoBehaviour
 		case status.atk:
 			
 			/* Escrever o codigo da animação quando tiver */
-			//Instantiate(Object FisicalAtk)  ;
+
 			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
 
@@ -62,7 +62,7 @@ public class MoveEnemy : MonoBehaviour
 		{
 			checkType = obj.transform.GetComponentInParent <ScriptField> ().type;
 			
-			if (checkType.CompareTag ("Player") && other.transform.parent.tag == obj.transform.parent.tag) {
+			if (checkType.CompareTag ("Player") && (other.transform.parent.tag == obj.transform.parent.tag)) {
 				//ENTRA EM MODO DE ATAQUE
 				enemyStatus = status.atk;
 			} else
