@@ -10,6 +10,8 @@ public class ScriptField : MonoBehaviour {
 	public bool preparaCampo = false;
 	public bool cancelaCampo = false;
 
+	public GameObject type;
+
 	// Use this for initialization
 	void Start () {
 
@@ -26,6 +28,8 @@ public class ScriptField : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other){
+		if(other.tag == "Player" || other.tag == "Enemy")
+		type = other.gameObject;
 	}
 
 	void OnTriggerExit2D(Collider2D other){

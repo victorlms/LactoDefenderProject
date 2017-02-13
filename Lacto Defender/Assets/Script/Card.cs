@@ -22,11 +22,15 @@ public class Card : MonoBehaviour {
 	public List<GameObject> objeto;
 
 	GameObject grid;
-
+	public bool limpa = false;
 	public int contta;
 	public float speed;
 
-	Transform destino;
+	public GameObject destino;
+	public GameObject field;
+
+	public bool walking = false;
+	bool voltaColor = false;
 
 	void Start () {
 		linePath = new List <GameObject> ();
@@ -43,6 +47,49 @@ public class Card : MonoBehaviour {
 
 	void Update () {
 
+		foreach(GameObject campo in walk){
+
+
+
+
+			if (campo.transform.GetComponent<ScriptField> ().freeFloor == false && !walking) {
+					walk.Remove (campo.gameObject);
+			}
+
+			if (campo.transform.GetComponent<ScriptField> ().preparaCampo == true && prepara == true) {
+
+				destino = campo.gameObject;
+				gameObject.transform.GetComponent<spawnPlayer> ().onField = false;
+				walking = true;
+				prepara = false;
+				foreach (GameObject campo2 in walk) {
+					campo2.transform.GetComponent<SpriteRenderer>().color = backColor;
+				}
+				field = campo.gameObject;
+				limpa = true;
+
+			} else if (campo.transform.GetComponent<ScriptField> ().cancelaCampo == true) {
+
+				prepara = false;
+				campo.transform.GetComponent<SpriteRenderer>().color = backColor;
+
+			}
+
+				
+
+			if (limpa) {
+				walk.Clear ();
+				limpa = false;
+			}
+
+		}
+
+		if (walking) {
+			transform.position = Vector2.Lerp (transform.position, field.transform.position, Time.deltaTime * 5);
+		}
+
+
+
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
@@ -50,25 +97,26 @@ public class Card : MonoBehaviour {
 		if (other.tag == "Box"){
 		objeto.Add (other.gameObject);
 
-			line = null;
-			lineDown = null;
-			lineDown2 = null;
-			lineUp = null;
-			lineUp = null;
 
-			if (linePath != null)
-				linePath.Clear ();
-			if (lineDownPath != null)
-				lineDownPath.Clear ();
-			if (lineDownPath2 != null)
-				lineDownPath2.Clear ();
-			if (lineUpPath != null)
-				lineUpPath.Clear ();
-			if (lineUpPath2 != null)
-				lineUpPath2.Clear ();
-			if (walk != null)
-				walk.Clear ();
-
+				line = null;
+				lineDown = null;
+				lineDown2 = null;
+				lineUp = null;
+				lineUp = null;
+					
+				if (linePath != null)
+					linePath.Clear ();
+				if (lineDownPath != null)
+					lineDownPath.Clear ();
+				if (lineDownPath2 != null)
+					lineDownPath2.Clear ();
+				if (lineUpPath != null)
+					lineUpPath.Clear ();
+				if (lineUpPath2 != null)
+					lineUpPath2.Clear ();
+				if (walk != null)
+					walk.Clear ();
+			
 
 
 			line = other.transform.parent.gameObject;
@@ -239,7 +287,7 @@ public class Card : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D other){
 
-		if (objeto != null) {
+		if (objeto.Count >0) {
 
 			foreach (GameObject field in objeto) {
 
@@ -251,6 +299,32 @@ public class Card : MonoBehaviour {
 		}
 
 	}//ONTRIGGEREXIT
+
+	Vector4 backColor;
+	bool clica = false;
+	public bool prepara = false;
+
+	void OnMouseDown(){
+
+		if (clica && gameObject.GetComponent<spawnPlayer>().onField) {
+
+			foreach (GameObject campo in walk) {
+				
+					backColor = new Vector4 (campo.transform.GetComponent<SpriteRenderer> ().color.r,
+						campo.transform.GetComponent<SpriteRenderer> ().color.g,
+						campo.transform.GetComponent<SpriteRenderer> ().color.b,
+						campo.transform.GetComponent<SpriteRenderer> ().color.a);
+				
+					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+
+
+				clica = false;
+			}
+			prepara = true;
+		}
+		clica = true;
+
+	}
 
 
 

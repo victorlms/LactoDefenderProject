@@ -11,7 +11,7 @@ public class spawnPlayer : MonoBehaviour {
 	public bool permission = false;
 	public bool onField = false;
 	public bool onMouse = true;
-
+	public bool spawn;
 	public ScriptField campo;
 
 	Vector2 _mousePosition;
@@ -21,7 +21,7 @@ public class spawnPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		objeto = new List<GameObject> ();
-
+		spawn = true;
 	}
 
 	// Update is called once per frame
@@ -43,16 +43,27 @@ public class spawnPlayer : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 
 
+		if (spawn == true) {
 
-		if (other.gameObject.tag == "Box") {
-			objeto.Add (other.gameObject);
-			boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
-			if (boxEmpty == true)
-				permission = true;
-		} else {
-			permission = false;
-			boxEmpty = false;
-		}//ELSE
+			if (other.gameObject.tag == "Box") {
+				objeto.Add (other.gameObject);
+				boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
+				if (boxEmpty == true)
+					permission = true;
+			} else {
+				permission = false;
+				boxEmpty = false;
+			}//ELSE
+		
+		}
+
+		if (spawn == false && gameObject.GetComponent<Card> ().walking == true) {
+
+			if (gameObject.GetComponent<Card> ().destino.gameObject == other.gameObject) {
+				posiciona = true;
+			}
+
+		}
 
 	}//VOID_ON_TRIGGER_ENTER
 
@@ -121,7 +132,15 @@ public class spawnPlayer : MonoBehaviour {
 
 			}
 
+			if (gameObject.transform.GetComponent<Card> ().walking) {
+				if (onField == false && posiciona == true && other.gameObject == objeto[1].gameObject) {
 
+					gameObject.transform.position = other.gameObject.transform.position;
+					gameObject.transform.GetComponent<Card> ().walking = false;
+
+				}
+			}
+				
 
 		}
 
@@ -131,6 +150,7 @@ public class spawnPlayer : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other){
 
 		if (other.tag == "Box") {
+			other.gameObject.transform.GetComponent<ScriptField> ().freeFloor = true;
 			foreach (GameObject field in objeto) {
 
 				if (field.gameObject == other.gameObject) {

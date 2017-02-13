@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class walkMoohMooh : MonoBehaviour {
 
-
+	/*
 	Vector2 _mousePosition;
 	bool isEmpty;
 	public bool prepara = false;
@@ -32,7 +32,7 @@ public class walkMoohMooh : MonoBehaviour {
 				}
 			}
 		}
-*/
+
 		if (prepara) {
 
 			foreach (GameObject campo in card.walk) {
@@ -60,6 +60,5 @@ public class walkMoohMooh : MonoBehaviour {
 			prepara = true;
 		}
 
-	}
-
+	}*/
 }
