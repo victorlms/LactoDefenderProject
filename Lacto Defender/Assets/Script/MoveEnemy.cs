@@ -7,7 +7,8 @@ public class MoveEnemy : MonoBehaviour
 	public status enemyStatus = status.move;	
 	List<GameObject> line;
 	GameObject checkType;
-	float backup_speed; 
+	float backup_speed;
+	public int x;
 
 	void start()
 	{
@@ -18,6 +19,7 @@ public class MoveEnemy : MonoBehaviour
 	void Update ()
 	{
 		backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
+
 		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
 			enemyStatus = status.death;
 		
@@ -30,6 +32,7 @@ public class MoveEnemy : MonoBehaviour
 
 		case status.atk:
 			
+			
 			/* Escrever o codigo da animação quando tiver */
 
 			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
@@ -41,41 +44,44 @@ public class MoveEnemy : MonoBehaviour
 			//ESCREVER NESSA LINHA A ANIMAÇÃO DO ALIEN MORRENDO;
 			Destroy(gameObject);
 			break;
-		}
+		}//FECHA SWITCH
 
 
 	
 	}//FECHA UPDATE PORRA
 
 
-	void OnTriggerEnter2D(Collider2D other){
-		if (other.tag == "Player")
+	void OnCollisionEnter2D(Collision2D other){
+		if (other.gameObject.tag == "Player")
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
-	}
+		//if (other.tag == "AtkPlayer")
+			//enemyStatus = status.onHit;
+	}//fecha ENTER
 
 	void OnTriggerStay2D(Collider2D other)
 	{
 		
 		line = other.transform.GetComponentInParent <LineIndentificator> ().path;
-	
+
 		foreach (GameObject obj in line) {
-			checkType = obj.transform.GetComponentInParent <ScriptField> ().type;
-			
-			if (checkType.CompareTag ("Player") && (other.transform.parent.tag == obj.transform.parent.tag)) {
+			checkType = obj.transform.GetComponent <ScriptField> ().type;
+		}
+			if (checkType.gameObject.tag == "Player") {
 				//ENTRA EM MODO DE ATAQUE
 				enemyStatus = status.atk;
-			} //else
-				//enemyStatus = status.move;// faz ele voltar a andar sem atacar
+			}
 
-			//fecha foreach
-		}
+		//}//fecha foreach
 	}//fecha stay
 
 	void OnTriggerExit2D(Collider2D other){
 
 		if (other.tag == "Player")
 			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
+		if (other.tag == "AtkPlayer")
+			enemyStatus = status.move;
 		
-	}
+		
+	}//FECHA EXIT
 
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum status {atk, death, move };
+public enum status {move , atk, onHit , death };
 
 public class StatusEnemy : MonoBehaviour {
 
@@ -11,5 +11,6 @@ public class StatusEnemy : MonoBehaviour {
 	public float life;
 	public float damage;
 	public float speed;
+	public int coinValue;
 
 }
