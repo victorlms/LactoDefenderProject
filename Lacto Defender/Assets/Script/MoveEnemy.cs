@@ -64,8 +64,8 @@ public class MoveEnemy : MonoBehaviour
 			if (checkType.CompareTag ("Player") && (other.transform.parent.tag == obj.transform.parent.tag)) {
 				//ENTRA EM MODO DE ATAQUE
 				enemyStatus = status.atk;
-			} else
-				enemyStatus = status.move;// faz ele voltar a andar sem atacar
+			} //else
+				//enemyStatus = status.move;// faz ele voltar a andar sem atacar
 
 			//fecha foreach
 		}
