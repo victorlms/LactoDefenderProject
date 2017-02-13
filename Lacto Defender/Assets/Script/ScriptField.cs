@@ -7,13 +7,12 @@ public class ScriptField : MonoBehaviour {
 	public bool freeFloor = true;
 	public bool walk = false;
 	public bool walk2 = false;
-	Card player;
-	public GameObject type;
+	public bool preparaCampo = false;
+	public bool cancelaCampo = false;
 
 	// Use this for initialization
 	void Start () {
 
-		type = null;
 
 	}
 
@@ -27,11 +26,23 @@ public class ScriptField : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		type = other.gameObject;
 	}
 
 	void OnTriggerExit2D(Collider2D other){
-		type = null;
+
+	}
+		
+
+
+
+
+	void OnMouseDown(){
+
+		if (freeFloor) {
+			preparaCampo = true;
+		} else {
+			cancelaCampo = true;
+		}
 	}
 
 }
