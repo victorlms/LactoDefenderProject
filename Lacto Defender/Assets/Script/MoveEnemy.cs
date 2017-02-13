@@ -7,7 +7,6 @@ public class MoveEnemy : MonoBehaviour
 	public status enemyStatus = status.move;	
 	List<GameObject> line;
 	GameObject checkType;
-	public GameObject obj;
 	float backup_speed; 
 
 	void start()
@@ -18,6 +17,7 @@ public class MoveEnemy : MonoBehaviour
 
 	void Update ()
 	{
+		backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
 		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
 			enemyStatus = status.death;
 		
@@ -58,8 +58,7 @@ public class MoveEnemy : MonoBehaviour
 		
 		line = other.transform.GetComponentInParent <LineIndentificator> ().path;
 	
-		foreach( GameObject obj in line)
-		{
+		foreach (GameObject obj in line) {
 			checkType = obj.transform.GetComponentInParent <ScriptField> ().type;
 			
 			if (checkType.CompareTag ("Player") && (other.transform.parent.tag == obj.transform.parent.tag)) {
@@ -68,7 +67,8 @@ public class MoveEnemy : MonoBehaviour
 			} else
 				enemyStatus = status.move;// faz ele voltar a andar sem atacar
 
-		}//fecha foreach
+			//fecha foreach
+		}
 	}//fecha stay
 
 	void OnTriggerExit2D(Collider2D other){
