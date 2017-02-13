@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour {
+	
 
 	public GameObject line;
 	public GameObject lineUp;
@@ -16,14 +17,14 @@ public class Card : MonoBehaviour {
 	public List<GameObject> lineDownPath;
 	public List<GameObject> lineDownPath2;
 	public List<GameObject> walk;
-	public bool walking = false;
+
 
 	public List<GameObject> objeto;
 
 	GameObject grid;
 
 	public int contta;
-	bool valida = false;
+	public float speed;
 
 	Transform destino;
 
@@ -41,44 +42,35 @@ public class Card : MonoBehaviour {
 	}
 
 	void Update () {
-		
-		foreach (GameObject campo in walk) {
 
-			if (campo.transform.GetComponent<ScriptField> ().walk == true) {
-				Debug.Log ("Vai ao campo");
-				walking = true;
-				destino.position = campo.transform.position;
-
-			}
-				
-		}
-
-		if (walking) {
-			gameObject.transform.position = Vector2.Lerp (transform.position, destino.position, 10 * Time.deltaTime);
-			Debug.Log ("ANDANDO");
-		}
 	}
-		
+
 	void OnTriggerEnter2D(Collider2D other){
+		
+		if (other.tag == "Box"){
 		objeto.Add (other.gameObject);
-	
-		if (other.tag == "Box" && valida == true) {
 
+			line = null;
+			lineDown = null;
+			lineDown2 = null;
+			lineUp = null;
+			lineUp = null;
 
-				line = null;
+			if (linePath != null)
 				linePath.Clear ();
-				lineDown = null;
-				lineDown2 = null;
+			if (lineDownPath != null)
 				lineDownPath.Clear ();
+			if (lineDownPath2 != null)
 				lineDownPath2.Clear ();
-				lineUp = null;
-				lineUp = null;
+			if (lineUpPath != null)
 				lineUpPath.Clear ();
+			if (lineUpPath2 != null)
 				lineUpPath2.Clear ();
+			if (walk != null)
 				walk.Clear ();
 
 
-			
+
 			line = other.transform.parent.gameObject;
 			LineIndentificator lineList = line.transform.GetComponent<LineIndentificator>();
 
@@ -115,7 +107,7 @@ public class Card : MonoBehaviour {
 				}
 				break;
 
-			
+
 
 			case "Linha2":
 				lineDown = grid.transform.GetChild (0).gameObject;
@@ -136,7 +128,7 @@ public class Card : MonoBehaviour {
 				}
 				break;
 
-		
+
 
 			case "Linha3":
 				lineDown = grid.transform.GetChild (1).gameObject;
@@ -199,62 +191,67 @@ public class Card : MonoBehaviour {
 				break;
 
 			}//FECHA SWITCH
-
+				
+			if(linePath.Count > 0)
 			for (int i = 0; i < linePath.Count; i++) {
 
-				if (linePath [i].gameObject == other.gameObject) {
+					if (linePath [i].gameObject == other.gameObject) {
 
-					if(linePath [i + 1] != null)
-					walk.Add (linePath [i + 1]);
-					
-					if(linePath [i + 2] != null)
-					walk.Add (linePath [i + 2]);
-					
-					if(linePath [i - 1] != null)
-					walk.Add (linePath [i - 1]);
-					
-					if(linePath [i - 2] != null)
-					walk.Add (linePath [i - 2]);
-					
-					if(lineUpPath [i] != null)
-					walk.Add (lineUpPath [i]);
-					
-					if(lineUpPath2 [i] != null)
-					walk.Add (lineUpPath2 [i]);
-					
-					if(lineDownPath [i] != null)
-					walk.Add (lineDownPath [i]);
-					
-					if(lineDownPath2 [i] != null)						
-					walk.Add (lineDownPath2 [i]);
-				}
-			
+
+						if (i < 6)
+							walk.Add (linePath [i + 1]);
+
+						if (i < 5)
+							walk.Add (linePath [i + 2]);
+
+						if (i > 0)
+							walk.Add (linePath [i - 1]);
+
+						if (i > 1)
+							walk.Add (linePath [i - 2]);
+
+						if (lineUpPath.Count > 0)
+							walk.Add (lineUpPath [i]);
+
+						if (lineUpPath2.Count > 0)
+							walk.Add (lineUpPath2 [i]);
+
+						if (lineDownPath.Count > 0)
+							walk.Add (lineDownPath [i]);
+
+						if (lineDownPath2.Count > 0)
+							walk.Add (lineDownPath2 [i]);
+					}
+
 			}//FECHA FOR PERCORRE LISTA
 
 		}//FECHA IF TAG
-			
+
+
+
 	}//ONTRIGGERENTER
 
 	void OnTriggerStay2D(Collider2D other){
-		
-		if (other.gameObject == objeto [0]) {
-			valida = true;
-		}
+
+
 
 	}//ONTRIGGERSTAY
 
 	void OnTriggerExit2D(Collider2D other){
-		valida = false;
 
-		foreach (GameObject field in objeto) {
+		if (objeto != null) {
 
-			if (field.gameObject == other.gameObject) {
-				objeto.Remove (field.gameObject);
+			foreach (GameObject field in objeto) {
+
+				if (field.gameObject == other.gameObject && field.tag == "Box") {
+					objeto.Remove (field.gameObject);
+				}
+
 			}
-
 		}
 
 	}//ONTRIGGEREXIT
 
 
-}
+
+}//MONOBEHAVIOR

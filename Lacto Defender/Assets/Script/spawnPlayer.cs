@@ -5,19 +5,16 @@ using UnityEngine;
 public class spawnPlayer : MonoBehaviour {
 
 	public float speed = 100;
+	public bool posiciona = true;
 
 	public bool boxEmpty = false;
 	public bool permission = false;
 	public bool onField = false;
-	bool being = false;
-
-
+	public bool onMouse = true;
 
 	public ScriptField campo;
 
-
 	Vector2 _mousePosition;
-
 
 	public List<GameObject> objeto;
 
@@ -26,13 +23,14 @@ public class spawnPlayer : MonoBehaviour {
 		objeto = new List<GameObject> ();
 
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 
-		_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 
-		if (onField == false) {
+
+		if (onField == false && onMouse == true) {
+			_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			//transform.position = Vector2.Lerp (gameObject.transform.position, _mousePosition, speed * Time.deltaTime);
 			transform.position = _mousePosition;
 			//gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 0.5f);
@@ -47,24 +45,25 @@ public class spawnPlayer : MonoBehaviour {
 
 
 		if (other.gameObject.tag == "Box") {
-				objeto.Add (other.gameObject);
-				boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
-				if (boxEmpty == true)
-					permission = true;
-			} else {
-				permission = false;
+			objeto.Add (other.gameObject);
+			boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
+			if (boxEmpty == true)
+				permission = true;
+		} else {
+			permission = false;
 			boxEmpty = false;
-			}//ELSE
-			
+		}//ELSE
+
 	}//VOID_ON_TRIGGER_ENTER
 
 	void OnTriggerStay2D(Collider2D other){
-			
 
-		if (other.gameObject == objeto [0]) {
+		if (other.tag == "Box") {
+
+			if (other.gameObject == objeto [0].gameObject) {
 
 
-			if (other.tag == "Box") {
+
 
 				/*
 				if (Input.GetTouch (0).phase == TouchPhase.Ended) {
@@ -91,7 +90,7 @@ public class spawnPlayer : MonoBehaviour {
 */
 				if (Input.GetMouseButtonDown (0) && other.gameObject == objeto [0]) {
 
-					if (permission == true && objeto [0].GetComponent<ScriptField> ().freeFloor == true) {
+					if (permission == true && other.transform.GetComponent<ScriptField> ().freeFloor == true) {
 
 						//Transform fieldTransform = other.transform.gameObject.GetComponent<Transform> ();
 						//Vector2 fieldPosition = new Vector2 (fieldTransform.position.x, fieldTransform.position.y);
@@ -99,9 +98,10 @@ public class spawnPlayer : MonoBehaviour {
 						other.gameObject.GetComponent<ScriptField> ().freeFloor = false;
 
 						onField = true;
+						onMouse = false;
 						boxEmpty = false;
 						permission = false;
-					//	gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
+						//	gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
 
 					}
 					if (onField == false && permission == false) {
@@ -111,20 +111,14 @@ public class spawnPlayer : MonoBehaviour {
 
 					}
 
-					if (onField == true && being == true) {
+					if (onField == true && posiciona == true) {
 
-						gameObject.transform.position = Vector2.Lerp (gameObject.transform.position, other.transform.position, speed * Time.deltaTime);
-						if (gameObject.transform.GetComponent<Card> ().walking == true) {
-
-							being = false;
-
-						} else {
-							being = true;
-						}
+						gameObject.transform.position = other.transform.position;
+						posiciona = false;
 					}
 
 				}
-				
+
 			}
 
 
@@ -135,15 +129,20 @@ public class spawnPlayer : MonoBehaviour {
 
 
 	void OnTriggerExit2D(Collider2D other){
-		
-		foreach (GameObject field in objeto) {
 
-			if (field.gameObject == other.gameObject) {
-				objeto.Remove (field.gameObject);
+		if (other.tag == "Box") {
+			foreach (GameObject field in objeto) {
+
+				if (field.gameObject == other.gameObject) {
+					//	field.transform.GetComponent<ScriptField> ().freeFloor = true;
+					objeto.Remove (field.gameObject);
+					if (objeto.Count == 0)
+						objeto.Clear ();
+				}
+
 			}
 
 		}
-
 	}
 
 }

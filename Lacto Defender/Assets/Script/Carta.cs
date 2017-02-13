@@ -18,7 +18,6 @@ public class Carta : MonoBehaviour {
 	Vector2 vetorOriginal;
 	Vector2 rotaOriginal;
 	Vector2 _mousePosition;
-
 	void start ()
 	{
 		
