@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum status {move , atk, onHit , death };
+public enum status {move , atk, hit , death };
 
 public class StatusEnemy : MonoBehaviour {
 

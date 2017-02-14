@@ -12,13 +12,13 @@ public class MoveEnemy : MonoBehaviour
 
 	void start()
 	{
-		
+		backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
 	}
 
 
 	void Update ()
 	{
-		backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
+		
 
 		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
 			enemyStatus = status.death;
@@ -34,9 +34,13 @@ public class MoveEnemy : MonoBehaviour
 			
 			
 			/* Escrever o codigo da animação quando tiver */
-
+			/*TESTE*///Destroy (gameObject);
+			
 			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
+
+		case status.hit:
+			
 
 
 		case status.death:
@@ -54,25 +58,27 @@ public class MoveEnemy : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D other){
 		if (other.gameObject.tag == "Player")
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
-		//if (other.tag == "AtkPlayer")
-			//enemyStatus = status.onHit;
+		if (other.gameObject.tag == "AtkPlayer")
+			enemyStatus = status.hit;
 	}//fecha ENTER
 
-	void OnTriggerStay2D(Collider2D other)
+
+
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		
-		line = other.transform.GetComponentInParent <LineIndentificator> ().path;
+		if (other.gameObject.tag == "Box") 
+		{
+			checkType = other.gameObject.GetComponent <ScriptField> ().type;
 
-		foreach (GameObject obj in line) {
-			checkType = obj.transform.GetComponent <ScriptField> ().type;
-		}
-			if (checkType.gameObject.tag == "Player") {
-				//ENTRA EM MODO DE ATAQUE
+			if(checkType == null)
+				enemyStatus = status.move;
+			else if (checkType.tag == "Player")
 				enemyStatus = status.atk;
-			}
+		}
+	}
 
-		//}//fecha foreach
-	}//fecha stay
+	void OnTriggerStay2D(Collider2D other){
+	}
 
 	void OnTriggerExit2D(Collider2D other){
 

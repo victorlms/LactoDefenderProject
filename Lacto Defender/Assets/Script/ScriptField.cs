@@ -14,7 +14,7 @@ public class ScriptField : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+		type = null;
 	}
 
 	// Update is called once per frame
@@ -24,15 +24,26 @@ public class ScriptField : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		
-	}
+		}
+
 
 	void OnTriggerStay2D(Collider2D other){
-		if (other.tag == "Player" || other.tag == "Enemy") {
+		
+		
+		if (other.CompareTag ("Player") ) {
+				
 			type = other.gameObject;
 		}
+		else if(other.CompareTag ("Enemy")){
+				type = other.gameObject;
+			}
 	}
 
 	void OnTriggerExit2D(Collider2D other){
+
+			
+		if (other.tag == "Player" || other.tag == "Enemy") 
+			type = null;
 
 	}
 		
