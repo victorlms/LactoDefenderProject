@@ -5,12 +5,11 @@ using UnityEngine;
 public class MoveEnemy : MonoBehaviour 
 {
 	public status enemyStatus = status.move;	
-	List<GameObject> line;
 	GameObject checkType;
 	float backup_speed;
 	public int x;
-
-	void start()
+	//FAZER CONTA DO DANO RECEBIDO
+	void Start()
 	{
 		backup_speed = gameObject.GetComponent<StatusEnemy> ().speed;
 	}
@@ -18,11 +17,7 @@ public class MoveEnemy : MonoBehaviour
 
 	void Update ()
 	{
-		
 
-		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
-			enemyStatus = status.death;
-		
 		switch (enemyStatus) {
 
 		case status.move:
@@ -31,17 +26,16 @@ public class MoveEnemy : MonoBehaviour
 			break;
 
 		case status.atk:
-			
-			
+
 			/* Escrever o codigo da animação quando tiver */
-			/*TESTE*///Destroy (gameObject);
-			
+
 			transform.Translate (Vector3.left * gameObject.GetComponent<StatusEnemy> ().speed * Time.deltaTime);
 			break;
 
 		case status.hit:
 			
-
+			transform.Translate (Vector3.left * -gameObject.GetComponent<StatusEnemy> ().speed  * Time.deltaTime);
+			break;
 
 		case status.death:
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
@@ -50,7 +44,9 @@ public class MoveEnemy : MonoBehaviour
 			break;
 		}//FECHA SWITCH
 
-
+		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
+			enemyStatus = status.death;
+		
 	
 	}//FECHA UPDATE PORRA
 
@@ -60,8 +56,7 @@ public class MoveEnemy : MonoBehaviour
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
 		if (other.gameObject.tag == "AtkPlayer")
 			enemyStatus = status.hit;
-	}//fecha ENTER
-
+	}
 
 
 	void OnTriggerEnter2D(Collider2D other)
