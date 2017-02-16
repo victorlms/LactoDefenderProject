@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class spawnPlayer : MonoBehaviour {
 
+
 	public float speed = 100;
 	public bool posiciona = true;
 
@@ -27,16 +28,16 @@ public class spawnPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (spawn == true) {
 
+			if (onField == false && onMouse == true) {
+				_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+				//transform.position = Vector2.Lerp (gameObject.transform.position, _mousePosition, speed * Time.deltaTime);
+				transform.position = _mousePosition;
+				//gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 0.5f);
+			}
 
-		if (onField == false && onMouse == true) {
-			_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			//transform.position = Vector2.Lerp (gameObject.transform.position, _mousePosition, speed * Time.deltaTime);
-			transform.position = _mousePosition;
-			//gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 0.5f);
 		}
-
-
 
 	}
 
@@ -46,7 +47,18 @@ public class spawnPlayer : MonoBehaviour {
 		if (spawn == true) {
 
 			if (other.gameObject.tag == "Box") {
+
+				bool testa = false;
+
+				if(objeto != null)
+				foreach (GameObject fieldTest in objeto) {
+					if (fieldTest.gameObject == other.gameObject)
+						testa = true;
+				}
+
+				if(testa == false)
 				objeto.Add (other.gameObject);
+
 				boxEmpty = other.gameObject.GetComponent<ScriptField> ().freeFloor;
 				if (boxEmpty == true)
 					permission = true;
@@ -69,7 +81,7 @@ public class spawnPlayer : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other){
 
-		if (other.tag == "Box") {
+		if (other.tag == "Box" && spawn == true) {
 
 			if (other.gameObject == objeto [0].gameObject) {
 
@@ -112,6 +124,7 @@ public class spawnPlayer : MonoBehaviour {
 						onMouse = false;
 						boxEmpty = false;
 						permission = false;
+						spawn = false;
 						//	gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
 
 					}
@@ -132,15 +145,28 @@ public class spawnPlayer : MonoBehaviour {
 
 			}
 
-			if (gameObject.transform.GetComponent<Card> ().walking) {
+			/*if (gameObject.transform.GetComponent<Card> ().walking) {
 				if (onField == false && posiciona == true && other.gameObject == objeto[1].gameObject) {
 
 					gameObject.transform.position = other.gameObject.transform.position;
 					gameObject.transform.GetComponent<Card> ().walking = false;
 
 				}
-			}
+			}*/
 				
+
+		}
+
+		if (spawn == false && other.tag == "Box") {
+
+			if (gameObject.transform.GetComponent<Card> ().walking) {
+				if (onField == false && posiciona == true && other.gameObject == gameObject.transform.GetComponent<Card>().objeto[1].gameObject) {
+
+					gameObject.transform.position = other.gameObject.transform.position;
+					gameObject.transform.GetComponent<Card> ().walking = false;
+
+				}
+			}
 
 		}
 
@@ -149,20 +175,25 @@ public class spawnPlayer : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D other){
 
-		if (other.tag == "Box") {
-			other.gameObject.transform.GetComponent<ScriptField> ().freeFloor = true;
-			foreach (GameObject field in objeto) {
+		if (spawn == true) {
 
-				if (field.gameObject == other.gameObject) {
-					//	field.transform.GetComponent<ScriptField> ().freeFloor = true;
-					objeto.Remove (field.gameObject);
-					if (objeto.Count == 0)
-						objeto.Clear ();
-				}
+			if (other.tag == "Box") {
+			
+
+				if (objeto.Count > 0)
+					for (int i = 0; i<objeto.Count; i++) {
+
+						if (objeto[i].gameObject == other.gameObject) {
+							//	field.transform.GetComponent<ScriptField> ().freeFloor = true;
+							other.gameObject.transform.GetComponent<ScriptField> ().freeFloor = true;
+							objeto.Remove (objeto[i].gameObject);
+
+						}
+
+					}
 
 			}
-
 		}
-	}
+	}//TRIGGEREXTI
 
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ScriptField : MonoBehaviour {
 
+	public bool onPath = false;
 	public bool freeFloor = true;
 	public bool walk = false;
 	public bool walk2 = false;
@@ -39,11 +40,13 @@ public class ScriptField : MonoBehaviour {
 			if (other.gameObject.transform.GetComponent<Card> ().walking && other.gameObject.transform.GetComponent<Card> ().field.gameObject == gameObject) {
 
 				other.gameObject.transform.GetComponent<Card> ().walking = false;
+
 				other.gameObject.transform.position = transform.position;
 				other.gameObject.transform.GetComponent<spawnPlayer>().onField = true;
 				other.gameObject.transform.GetComponent<Card> ().field = null;
 				preparaCampo = false;
 				cancelaCampo = false;
+				other.gameObject.transform.GetComponent<Card> ().prepara = false;
 
 			}
 
@@ -59,9 +62,14 @@ public class ScriptField : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D other){
 
-			
-		if (other.tag == "Player" || other.tag == "Enemy") 
+
+		if (other.tag == "Player" || other.tag == "Enemy") {
+
+			if (type != null) 
+				freeFloor = true;
+
 			type = null;
+		}
 
 		preparaCampo = false;
 		cancelaCampo = false;
