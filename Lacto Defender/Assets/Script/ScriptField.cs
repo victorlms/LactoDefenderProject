@@ -37,16 +37,16 @@ public class ScriptField : MonoBehaviour {
 			
 			type = other.gameObject;
 
-			if (other.gameObject.transform.GetComponent<Card> ().walking && other.gameObject.transform.GetComponent<Card> ().field.gameObject == gameObject) {
+			if (other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking && other.gameObject.transform.GetComponent<movimentoMoohMooh> ().field.gameObject == gameObject) {
 
-				other.gameObject.transform.GetComponent<Card> ().walking = false;
+				other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking = false;
 
 				other.gameObject.transform.position = transform.position;
 				other.gameObject.transform.GetComponent<spawnPlayer>().onField = true;
-				other.gameObject.transform.GetComponent<Card> ().field = null;
+				other.gameObject.transform.GetComponent<movimentoMoohMooh> ().field = null;
 				preparaCampo = false;
 				cancelaCampo = false;
-				other.gameObject.transform.GetComponent<Card> ().prepara = false;
+				other.gameObject.transform.GetComponent<movimentoMoohMooh> ().prepara = false;
 
 			}
 

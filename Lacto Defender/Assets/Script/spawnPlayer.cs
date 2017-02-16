@@ -69,9 +69,9 @@ public class spawnPlayer : MonoBehaviour {
 		
 		}
 
-		if (spawn == false && gameObject.GetComponent<Card> ().walking == true) {
+		if (spawn == false && gameObject.GetComponent<movimentoMoohMooh> ().walking == true) {
 
-			if (gameObject.GetComponent<Card> ().field.gameObject == other.gameObject) {
+			if (gameObject.GetComponent<movimentoMoohMooh> ().field.gameObject == other.gameObject) {
 				posiciona = true;
 			}
 
@@ -145,11 +145,11 @@ public class spawnPlayer : MonoBehaviour {
 
 			}
 
-			/*if (gameObject.transform.GetComponent<Card> ().walking) {
+			/*if (gameObject.transform.GetComponent<movimentoMoohMooh> ().walking) {
 				if (onField == false && posiciona == true && other.gameObject == objeto[1].gameObject) {
 
 					gameObject.transform.position = other.gameObject.transform.position;
-					gameObject.transform.GetComponent<Card> ().walking = false;
+					gameObject.transform.GetComponent<movimentoMoohMooh> ().walking = false;
 
 				}
 			}*/
@@ -159,11 +159,11 @@ public class spawnPlayer : MonoBehaviour {
 
 		if (spawn == false && other.tag == "Box") {
 
-			if (gameObject.transform.GetComponent<Card> ().walking) {
-				if (onField == false && posiciona == true && other.gameObject == gameObject.transform.GetComponent<Card>().objeto[1].gameObject) {
+			if (gameObject.transform.GetComponent<movimentoMoohMooh> ().walking) {
+				if (onField == false && posiciona == true && other.gameObject == gameObject.transform.GetComponent<movimentoMoohMooh>().objeto[1].gameObject) {
 
 					gameObject.transform.position = other.gameObject.transform.position;
-					gameObject.transform.GetComponent<Card> ().walking = false;
+					gameObject.transform.GetComponent<movimentoMoohMooh> ().walking = false;
 
 				}
 			}

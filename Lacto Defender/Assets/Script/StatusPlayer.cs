@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum statusPlayer {move , atk, hit , death, spawn };
 
 public class StatusPlayer : MonoBehaviour {
 
@@ -12,16 +11,9 @@ public class StatusPlayer : MonoBehaviour {
 
 	void start(){
 		
-			tempoRestante = 100.0f;
-		
 	}
 
 	void update(){
-
-		tempoRestante = tempoRestante - Time.deltaTime;
-
-		if (tempoRestante <= 0)
-			Destroy (gameObject);
 
 	}
 
