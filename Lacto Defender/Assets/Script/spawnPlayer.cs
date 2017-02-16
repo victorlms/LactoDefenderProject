@@ -59,7 +59,7 @@ public class spawnPlayer : MonoBehaviour {
 
 		if (spawn == false && gameObject.GetComponent<Card> ().walking == true) {
 
-			if (gameObject.GetComponent<Card> ().destino.gameObject == other.gameObject) {
+			if (gameObject.GetComponent<Card> ().field.gameObject == other.gameObject) {
 				posiciona = true;
 			}
 

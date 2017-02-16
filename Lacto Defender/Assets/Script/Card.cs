@@ -11,12 +11,19 @@ public class Card : MonoBehaviour {
 	public GameObject lineDown;
 	public GameObject lineDown2;
 
+
+
 	public List<GameObject> linePath;
 	public List<GameObject> lineUpPath;
 	public List<GameObject> lineUpPath2;
 	public List<GameObject> lineDownPath;
 	public List<GameObject> lineDownPath2;
-	public List<GameObject> walk;
+	//public List<List<GameObject>> walk;
+	public List<GameObject> walkUp;
+	public List<GameObject> walkDown;
+	public List<GameObject> walkLeft;
+	public List<GameObject> walkRight;
+	public List<GameObject> walkExcept;
 
 
 	public List<GameObject> objeto;
@@ -26,67 +33,158 @@ public class Card : MonoBehaviour {
 	public int contta;
 	public float speed;
 
-	public GameObject destino;
 	public GameObject field;
 
 	public bool walking = false;
 	bool voltaColor = false;
+	bool exited = false;
 
 	void Start () {
-		linePath = new List <GameObject> ();
+
+		linePath = new List<GameObject> ();
+	
 		lineUpPath = new List<GameObject>();
 		lineUpPath2 = new List<GameObject>();
 		lineDownPath = new List<GameObject>();
 		lineDownPath2 = new List<GameObject>();
-		walk = new List<GameObject> ();
-
+	//	walk = new List<List<GameObject>> ();
+		walkUp = new List<GameObject> ();
+		walkDown = new List<GameObject> ();
+		walkRight = new List <GameObject> ();
+		walkLeft = new List<GameObject> ();
+		walkExcept = new List<GameObject> ();
 		objeto = new List<GameObject> ();
-
 
 	}
 
-	void Update () {
-
-		foreach(GameObject campo in walk){
 
 
+	void Update ()
+	{
+				
+		for(int i = 0; i < walkExcept.Count; i++) {
 
-
-			if (campo.transform.GetComponent<ScriptField> ().freeFloor == false && !walking) {
-					walk.Remove (campo.gameObject);
+			if (walkExcept[i].gameObject.transform.GetComponent<ScriptField> ().freeFloor == true) {
+				walkExcept.Remove (walkExcept[i]);
+				if (i % 2 != 0)
+					walkExcept.Remove (walkExcept [i++]);
 			}
 
-			if (campo.transform.GetComponent<ScriptField> ().preparaCampo == true && prepara == true) {
+		}
 
-				destino = campo.gameObject;
-				gameObject.transform.GetComponent<spawnPlayer> ().onField = false;
-				walking = true;
-				prepara = false;
-				foreach (GameObject campo2 in walk) {
-					campo2.transform.GetComponent<SpriteRenderer>().color = backColor;
+		foreach (GameObject campo in walkUp) {
+
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().freeFloor == false){
+
+				bool testa = true;
+
+				foreach (GameObject box in walkExcept) {
+					if (box == campo)
+						testa = false;
 				}
+				if (testa) {
+					
+					walkExcept.Add (campo.gameObject);
+					Debug.Log ("Adicionou o primeiro");
+					Debug.Log ("tamanho é" + walkUp.Count);
+					Debug.Log (campo.gameObject.tag + " E "+walkUp[0].gameObject.tag);
+
+					if (walkUp.Count > 1 && (campo.gameObject == walkUp [0].gameObject)) {
+						Debug.Log ("Adicionando exceção");
+						walkExcept.Add (walkUp [1]);
+						Debug.Log ("Tentou adicionar");
+					}
+				}
+			}
+
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				walking = true;
 				field = campo.gameObject;
 				limpa = true;
+			}
+					
+		}
 
-			} else if (campo.transform.GetComponent<ScriptField> ().cancelaCampo == true) {
+		foreach (GameObject campo in walkDown) {
+			
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().freeFloor == false){
 
-				prepara = false;
-				campo.transform.GetComponent<SpriteRenderer>().color = backColor;
+				bool testa = true;
 
+				foreach (GameObject box in walkExcept) {
+					if (box == campo)
+						testa = false;
+				}
+				if (testa) {
+					walkExcept.Add (campo.gameObject);
+				}
 			}
 
-				
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				walking = true;
+				field = campo.gameObject;
+				limpa = true;
+			}
 
-			if (limpa) {
-				walk.Clear ();
-				limpa = false;
+		}
+
+		foreach (GameObject campo in walkLeft) {
+
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().freeFloor == false) {
+
+				bool testa = true;
+
+				foreach (GameObject box in walkExcept) {
+					if (box == campo)
+						testa = false;
+				}
+				if (testa) {
+					walkExcept.Add (campo.gameObject);
+				}
+			}
+
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				walking = true;
+				field = campo.gameObject;
+				limpa = true;
+			}
+
+		}
+
+		foreach (GameObject campo in walkRight) {
+
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().freeFloor == false){
+
+				bool testa = true;
+
+				foreach (GameObject box in walkExcept) {
+					if (box == campo)
+						testa = false;
+				}
+				if (testa) {
+					walkExcept.Add (campo.gameObject);
+				}
+			}
+
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				walking = true;
+				field = campo.gameObject;
+				limpa = true;
 			}
 
 		}
 
 		if (walking) {
-			transform.position = Vector2.Lerp (transform.position, field.transform.position, Time.deltaTime * 5);
+			transform.position = Vector2.Lerp (transform.position, field.transform.position, Time.deltaTime);
 		}
+
+		/*if (limpa) {
+			walkUp.Clear ();
+			walkDown.Clear ();
+			walkLeft.Clear ();
+			walkRight.Clear ();
+			walkExcept.Clear ();
+		}*/
 
 
 
@@ -95,6 +193,13 @@ public class Card : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		
 		if (other.tag == "Box"){
+
+			if (walking && other.gameObject == field.gameObject) {
+				other.gameObject.transform.GetComponent<ScriptField> ().preparaCampo = false;
+				other.gameObject.transform.GetComponent<ScriptField> ().cancelaCampo = false;
+
+			}
+
 		objeto.Add (other.gameObject);
 
 
@@ -102,22 +207,40 @@ public class Card : MonoBehaviour {
 				lineDown = null;
 				lineDown2 = null;
 				lineUp = null;
-				lineUp = null;
-					
+				lineUp2 = null;
+
 				if (linePath != null)
 					linePath.Clear ();
+					
+				if (walkLeft != null)
+					walkLeft.Clear ();
+
+				if (walkRight != null)
+					walkRight.Clear ();
+			
 				if (lineDownPath != null)
 					lineDownPath.Clear ();
+			
 				if (lineDownPath2 != null)
 					lineDownPath2.Clear ();
+			
 				if (lineUpPath != null)
 					lineUpPath.Clear ();
+			
 				if (lineUpPath2 != null)
 					lineUpPath2.Clear ();
-				if (walk != null)
-					walk.Clear ();
 			
+				//if (walk != null)
+				//	walk.Clear ();
 
+				if (walkUp != null)
+					walkUp.Clear ();
+			
+				if (walkDown != null)
+					walkDown.Clear ();
+
+				if(walkExcept != null)
+					walkExcept.Clear ();
 
 			line = other.transform.parent.gameObject;
 			LineIndentificator lineList = line.transform.GetComponent<LineIndentificator>();
@@ -141,8 +264,7 @@ public class Card : MonoBehaviour {
 			switch (line.gameObject.transform.tag) {
 
 			case "Linha1":
-				lineDown = null;
-				lineDown2 = null;
+				
 				lineUp = grid.transform.GetChild (1).gameObject;
 				lineList = lineUp.transform.GetComponent<LineIndentificator> ();
 				foreach (GameObject campo in lineList.path) {
@@ -217,8 +339,7 @@ public class Card : MonoBehaviour {
 				foreach (GameObject campo in lineList.path) {
 					lineUpPath.Add (campo);				
 				}
-				lineUp2 = null;
-				lineUpPath2 = null;
+			
 				break;
 
 			case "Linha5":
@@ -232,56 +353,73 @@ public class Card : MonoBehaviour {
 				foreach (GameObject campo in lineList.path) {
 					lineDownPath2.Add (campo);				
 				}
-				lineUp = null;
-				lineUpPath = null;
-				lineUp2 = null;
-				lineUpPath2 = null;
+			
 				break;
 
 			}//FECHA SWITCH
 				
-			if(linePath.Count > 0)
-			for (int i = 0; i < linePath.Count; i++) {
+			if (linePath.Count > 0) {
+				
+				for (int i = 0; i < linePath.Count; i++) {
 
-					if (linePath [i].gameObject == other.gameObject) {
+					if (linePath [i].gameObject == objeto[0].gameObject) {
 
+						if (i < 5 )
+							walkRight.Add (linePath [i + 2].gameObject);
 
-						if (i < 6)
-							walk.Add (linePath [i + 1]);
-
-						if (i < 5)
-							walk.Add (linePath [i + 2]);
+						if (i < 6 )
+							walkRight.Add (linePath [i + 1].gameObject);
 
 						if (i > 0)
-							walk.Add (linePath [i - 1]);
+							walkLeft.Add (linePath [i - 1].gameObject);
 
 						if (i > 1)
-							walk.Add (linePath [i - 2]);
+							walkLeft.Add (linePath [i - 2].gameObject);
 
-						if (lineUpPath.Count > 0)
-							walk.Add (lineUpPath [i]);
+						if (lineUpPath.Count > 0 )
+							walkUp.Add (lineUpPath [i].gameObject);
 
 						if (lineUpPath2.Count > 0)
-							walk.Add (lineUpPath2 [i]);
+							walkUp.Add (lineUpPath2 [i].gameObject);
 
-						if (lineDownPath.Count > 0)
-							walk.Add (lineDownPath [i]);
+						if (lineDownPath != null)
+							walkDown.Add (lineDownPath [i].gameObject);
 
-						if (lineDownPath2.Count > 0)
-							walk.Add (lineDownPath2 [i]);
+						if (lineDownPath2 != null)
+							walkDown.Add (lineDownPath2 [i].gameObject);
+						
 					}
+						
 
-			}//FECHA FOR PERCORRE LISTA
+				}//FECHA FOR PERCORRE LISTA
+				/*
+				if(walkUp.Count > 0)
+				foreach (GameObject campo in walkUp) {
+					walk.Add (campo.gameObject);
+				}
+				
+				if(walkDown.Count > 0)
+				foreach (GameObject campo in walkDown) {
+					walk.Add (campo.gameObject);
+				}
+				
+				if(walkLeft.Count > 0)
+				foreach (GameObject campo in walkLeft) {
+					walk.Add (campo.gameObject);
+				}
+				
+				if(walkRight.Count > 0)
+				foreach (GameObject campo in walkRight) {
+					walk.Add (campo.gameObject);
+				}
+*/
+			}
 
 		}//FECHA IF TAG
-
-
-
+			
 	}//ONTRIGGERENTER
 
 	void OnTriggerStay2D(Collider2D other){
-
-
 
 	}//ONTRIGGERSTAY
 
@@ -291,8 +429,10 @@ public class Card : MonoBehaviour {
 
 			foreach (GameObject field in objeto) {
 
-				if (field.gameObject == other.gameObject && field.tag == "Box") {
+				if (field.gameObject == objeto[0].gameObject) {
+					exited = true;
 					objeto.Remove (field.gameObject);
+
 				}
 
 			}
@@ -306,9 +446,33 @@ public class Card : MonoBehaviour {
 
 	void OnMouseDown(){
 
-		if (clica && gameObject.GetComponent<spawnPlayer>().onField) {
+		if (clica && gameObject.GetComponent<spawnPlayer>().onField ) {
 
-			foreach (GameObject campo in walk) {
+			foreach (GameObject campo in walkUp) {
+
+				backColor = new Vector4 (campo.transform.GetComponent<SpriteRenderer> ().color.r,
+					campo.transform.GetComponent<SpriteRenderer> ().color.g,
+					campo.transform.GetComponent<SpriteRenderer> ().color.b,
+					campo.transform.GetComponent<SpriteRenderer> ().color.a);
+
+				campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+
+
+			}
+
+			foreach (GameObject campo in walkDown) {
+
+				backColor = new Vector4 (campo.transform.GetComponent<SpriteRenderer> ().color.r,
+					campo.transform.GetComponent<SpriteRenderer> ().color.g,
+					campo.transform.GetComponent<SpriteRenderer> ().color.b,
+					campo.transform.GetComponent<SpriteRenderer> ().color.a);
+
+				campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+
+
+			}
+
+			foreach (GameObject campo in walkRight) {
 				
 					backColor = new Vector4 (campo.transform.GetComponent<SpriteRenderer> ().color.r,
 						campo.transform.GetComponent<SpriteRenderer> ().color.g,
@@ -318,9 +482,23 @@ public class Card : MonoBehaviour {
 					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
 
 
-				clica = false;
 			}
+
+			foreach (GameObject campo in walkLeft) {
+
+				backColor = new Vector4 (campo.transform.GetComponent<SpriteRenderer> ().color.r,
+					campo.transform.GetComponent<SpriteRenderer> ().color.g,
+					campo.transform.GetComponent<SpriteRenderer> ().color.b,
+					campo.transform.GetComponent<SpriteRenderer> ().color.a);
+
+				campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+
+
+			}
+
+			clica = false;
 			prepara = true;
+
 		}
 		clica = true;
 

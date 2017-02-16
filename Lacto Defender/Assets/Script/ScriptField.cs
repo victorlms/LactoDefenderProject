@@ -23,7 +23,9 @@ public class ScriptField : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		
+
+
+
 		}
 
 
@@ -31,12 +33,28 @@ public class ScriptField : MonoBehaviour {
 		
 		
 		if (other.CompareTag ("Player") ) {
-				
+			
 			type = other.gameObject;
+
+			if (other.gameObject.transform.GetComponent<Card> ().walking && other.gameObject.transform.GetComponent<Card> ().field.gameObject == gameObject) {
+
+				other.gameObject.transform.GetComponent<Card> ().walking = false;
+				other.gameObject.transform.position = transform.position;
+				other.gameObject.transform.GetComponent<spawnPlayer>().onField = true;
+				other.gameObject.transform.GetComponent<Card> ().field = null;
+				preparaCampo = false;
+				cancelaCampo = false;
+
+			}
+
 		}
 		else if(other.CompareTag ("Enemy")){
+			if(type == null)
 				type = other.gameObject;
 			}
+
+
+
 	}
 
 	void OnTriggerExit2D(Collider2D other){
@@ -44,6 +62,9 @@ public class ScriptField : MonoBehaviour {
 			
 		if (other.tag == "Player" || other.tag == "Enemy") 
 			type = null;
+
+		preparaCampo = false;
+		cancelaCampo = false;
 
 	}
 		

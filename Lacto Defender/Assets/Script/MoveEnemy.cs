@@ -50,25 +50,35 @@ public class MoveEnemy : MonoBehaviour
 	
 	}//FECHA UPDATE PORRA
 
-
+	/*
 	void OnCollisionEnter2D(Collision2D other){
 		if (other.gameObject.tag == "Player")
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
 		if (other.gameObject.tag == "AtkPlayer")
 			enemyStatus = status.hit;
 	}
+*/
 
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
+
+		if (other.gameObject.tag == "Player") {
+			gameObject.GetComponent<StatusEnemy> ().speed = 0;
+			enemyStatus = status.atk;
+		}
+
+		if (other.gameObject.tag == "AtkPlayer")
+			enemyStatus = status.hit;
+
 		if (other.gameObject.tag == "Box") 
 		{
 			checkType = other.gameObject.GetComponent <ScriptField> ().type;
 
 			if(checkType == null)
 				enemyStatus = status.move;
-			else if (checkType.tag == "Player")
-				enemyStatus = status.atk;
+			//else if (checkType.gameObject.tag == "Player")
+				//enemyStatus = status.atk;
 		}
 	}
 

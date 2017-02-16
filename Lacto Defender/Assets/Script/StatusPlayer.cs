@@ -2,14 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum statusPlayer {atk, death, move, standby };
 
 public class StatusPlayer : MonoBehaviour {
 
-	// FUNÇÃO DESSE SCRIPT É SER, A PRINICIPIO, APENAS UM DEPÓSITO DE INFORMAÇÃO SOBRE O PLAYER
-
 	public float life = 100f;
 	public float damage = 10f;
-	public float time = 100f;
+	public float tempoRestante;
+
+	void start(){
+		
+			tempoRestante = 100.0f;
+		
+	}
+
+	void update(){
+
+		tempoRestante = tempoRestante - Time.deltaTime;
+
+		if (tempoRestante <= 0)
+			Destroy (gameObject);
+
+	}
 
 }
