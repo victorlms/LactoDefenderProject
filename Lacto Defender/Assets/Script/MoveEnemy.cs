@@ -34,7 +34,8 @@ public class MoveEnemy : MonoBehaviour
 
 		case status.hit:
 			
-			transform.Translate (Vector3.left * -gameObject.GetComponent<StatusEnemy> ().speed  * Time.deltaTime);
+			transform.Translate (Vector3.left * -gameObject.GetComponent<StatusEnemy> ().speed *0.2f * Time.deltaTime);
+
 			break;
 
 		case status.death:
@@ -62,27 +63,19 @@ public class MoveEnemy : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-
-		if (other.gameObject.tag == "Player") {
-			gameObject.GetComponent<StatusEnemy> ().speed = 0;
-			enemyStatus = status.atk;
-		}
-
 		if (other.gameObject.tag == "AtkPlayer")
 			enemyStatus = status.hit;
-
-		if (other.gameObject.tag == "Box") 
-		{
-			checkType = other.gameObject.GetComponent <ScriptField> ().type;
-
-			if(checkType == null)
-				enemyStatus = status.move;
-			//else if (checkType.gameObject.tag == "Player")
-				//enemyStatus = status.atk;
-		}
 	}
 
 	void OnTriggerStay2D(Collider2D other){
+		if (other.gameObject.tag == "Player") {
+			gameObject.GetComponent<StatusEnemy> ().speed = 0;
+			//DestroyObject(other.gameObject);
+
+		}
+		else
+			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
+			
 	}
 
 	void OnTriggerExit2D(Collider2D other){
