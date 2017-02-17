@@ -13,4 +13,21 @@ public class EnemyFisicalAtk : MonoBehaviour {
 		}
 	}
 
+
+	void OnTriggerStay2D(Collider2D other)
+	{
+
+		if (other.gameObject.tag == "Player") {
+			gameObject.GetComponent<MoveEnemy> ().enemyStatus = status.atk;
+		}
+
+
+
+
+	}
+	void OnTriggerExit2D(Collider2D other){
+
+		if (other.gameObject.tag == "Player")
+			gameObject.GetComponent<MoveEnemy> ().enemyStatus = status.move;
+	}
 }

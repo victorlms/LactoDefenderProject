@@ -61,21 +61,20 @@ public class MoveEnemy : MonoBehaviour
 */
 
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.gameObject.tag == "AtkPlayer")
-			enemyStatus = status.hit;
+	void OnTriggerEnter2D(Collider2D other){
+		
 	}
 
 	void OnTriggerStay2D(Collider2D other){
 		if (other.gameObject.tag == "Player") {
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
-			//DestroyObject(other.gameObject);
 
 		}
 		else
 			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
-			
+		
+		if (other.gameObject.tag == "AtkPlayer")
+			enemyStatus = status.hit;	
 	}
 
 	void OnTriggerExit2D(Collider2D other){
