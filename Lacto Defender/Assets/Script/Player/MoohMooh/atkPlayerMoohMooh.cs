@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class atkPlayer : MonoBehaviour {
+public class atkPlayerMoohMooh : MonoBehaviour {
 
 	public bool repete = false;
 	public bool activate = false;
@@ -22,7 +22,9 @@ public class atkPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (gameObject.transform.GetComponent<movimentoMoohMooh> ().walking == false && gameObject.transform.GetComponent<spawnPlayer>().onField == true && gameObject.transform.GetComponent<spawnPlayer>().spawn == false) {
+		if (gameObject.transform.GetComponent<movimentoMoohMooh> ().walking == false 
+			&& gameObject.transform.GetComponent<spawnPlayerMoohMooh>().onField == true 
+			&& gameObject.transform.GetComponent<spawnPlayerMoohMooh>().spawn == false) {
 
 			foreach (GameObject campo in linePath) {
 				if(campo.gameObject.transform.GetComponent<ScriptField> ().type != null)
@@ -76,13 +78,15 @@ public class atkPlayer : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other){
 
-
+		if(other.gameObject.tag == "Enemy" || other.gameObject.tag == "atkEnemy"){
+			activate = true;
+		}
 
 	}
 
 	void atira(){
 		if (repete == false) {
-			InvokeRepeating ("launch", 0.3f, 1);
+			InvokeRepeating ("launch", 0.3f, 2);
 		}
 		repete = true;
 	}

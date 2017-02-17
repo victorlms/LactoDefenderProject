@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class spawnPlayer : MonoBehaviour {
+public class spawnPlayerMoohMooh : MonoBehaviour {
 
 
 	public float speed = 100;
@@ -69,6 +69,7 @@ public class spawnPlayer : MonoBehaviour {
 		
 		}
 
+		
 		if (spawn == false && gameObject.GetComponent<movimentoMoohMooh> ().walking == true) {
 
 			if (gameObject.GetComponent<movimentoMoohMooh> ().field.gameObject == other.gameObject) {

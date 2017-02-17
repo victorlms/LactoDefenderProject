@@ -26,4 +26,12 @@ public class playerProjetilScript : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerExit2D(Collider2D other){
+
+		if (other.gameObject.tag == "Box" && other.gameObject.transform.GetComponentInParent<LineIndentificator>().path[6] == other.gameObject) {
+			Destroy (gameObject);
+		}
+
+	}
+
 }

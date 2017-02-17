@@ -37,18 +37,39 @@ public class ScriptField : MonoBehaviour {
 			
 			type = other.gameObject;
 
-			if (other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking && other.gameObject.transform.GetComponent<movimentoMoohMooh> ().field.gameObject == gameObject) {
+			if (other.gameObject.transform.GetComponent<movimentoMoohMooh> () != null) {
+				if (other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking
+					&& other.gameObject.transform.GetComponent<movimentoMoohMooh> ().field.gameObject == gameObject) {
 
-				other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking = false;
+					other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking = false;
 
-				other.gameObject.transform.position = transform.position;
-				other.gameObject.transform.GetComponent<spawnPlayer>().onField = true;
-				other.gameObject.transform.GetComponent<movimentoMoohMooh> ().field = null;
-				preparaCampo = false;
-				cancelaCampo = false;
-				other.gameObject.transform.GetComponent<movimentoMoohMooh> ().prepara = false;
+					other.gameObject.transform.position = transform.position;
+					other.gameObject.transform.GetComponent<spawnPlayerMoohMooh> ().onField = true;
+					other.gameObject.transform.GetComponent<movimentoMoohMooh> ().field = null;
+					preparaCampo = false;
+					cancelaCampo = false;
+					other.gameObject.transform.GetComponent<movimentoMoohMooh> ().prepara = false;
 
+				}
 			}
+
+			if (other.gameObject.transform.GetComponent<movimentoRaMooh> () != null) {
+				if (other.gameObject.transform.GetComponent<movimentoRaMooh> ().walking
+				   && other.gameObject.transform.GetComponent<movimentoRaMooh> ().field.gameObject == gameObject) {
+
+					other.gameObject.transform.GetComponent<movimentoRaMooh> ().walking = false;
+
+					other.gameObject.transform.position = transform.position;
+					other.gameObject.transform.GetComponent<spawnPlayerRaMooh> ().onField = true;
+					other.gameObject.transform.GetComponent<movimentoRaMooh> ().field = null;
+					preparaCampo = false;
+					cancelaCampo = false;
+					other.gameObject.transform.GetComponent<movimentoRaMooh> ().prepara = false;
+
+				}
+			}
+
+
 
 		}
 		else if(other.CompareTag ("Enemy")){
