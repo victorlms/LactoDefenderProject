@@ -8,9 +8,10 @@ public class StatusPlayer : MonoBehaviour {
 	float life;
 	float tempoRestante;
 
-	public bool death = false;
+	public bool death;
 
 	void start(){
+		death = false;
 		life = 10;
 	}
 

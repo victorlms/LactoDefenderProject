@@ -27,10 +27,13 @@ public class atkPlayerMoohMooh : MonoBehaviour {
 			&& gameObject.transform.GetComponent<spawnPlayerMoohMooh>().spawn == false) {
 
 			foreach (GameObject campo in linePath) {
-				if(campo.gameObject.transform.GetComponent<ScriptField> ().type != null)
-					if (campo.gameObject.transform.GetComponent<ScriptField> ().type.gameObject.tag == "Enemy") {
-						search = true;
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().typeList.Count > 0) {
+					foreach (GameObject tipo in campo.gameObject.transform.GetComponent<ScriptField> ().typeList) {
+						if (tipo.gameObject.tag == "Enemy") {
+							search = true;
+						}
 					}
+				}
 			}
 
 			if (search == true) {
@@ -51,12 +54,16 @@ public class atkPlayerMoohMooh : MonoBehaviour {
 		}
 
 		foreach (GameObject campo in linePath) {
-			if (campo.gameObject.transform.GetComponent<ScriptField> ().type == null)
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().typeList == null 
+				|| campo.gameObject.transform.GetComponent<ScriptField> ().typeList.Count == 0)
 				search = false;
 			
-			if(campo.gameObject.transform.GetComponent<ScriptField> ().type != null)
-			if (campo.gameObject.transform.GetComponent<ScriptField> ().type.gameObject.tag == "Enemy") {
-				search = true;
+			if (campo.gameObject.transform.GetComponent<ScriptField> ().typeList != null) {
+				foreach (GameObject tipo in campo.gameObject.transform.GetComponent<ScriptField> ().typeList) {
+					if (tipo.gameObject.tag == "Enemy") {
+						search = true;
+					}
+				}
 			}
 		}
 
@@ -86,7 +93,7 @@ public class atkPlayerMoohMooh : MonoBehaviour {
 
 	void atira(){
 		if (repete == false) {
-			InvokeRepeating ("launch", 0.3f, 2);
+			InvokeRepeating ("launch", 0.3f, speed);
 		}
 		repete = true;
 	}

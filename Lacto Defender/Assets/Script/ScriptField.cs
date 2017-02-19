@@ -10,23 +10,32 @@ public class ScriptField : MonoBehaviour {
 	public bool walk2 = false;
 	public bool preparaCampo = false;
 	public bool cancelaCampo = false;
-	public GameObject type;
+	//public GameObject type;
+	public List<GameObject> typeList;
 
 	// Use this for initialization
 	void Start () {
-
-		type = null;
+		typeList = new List <GameObject>();
+		//type = null;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		
+
+		if (typeList.Count > 0) {
+			foreach (GameObject tipo in typeList) {
+
+				if (tipo == null)
+					typeList.Remove (tipo);
+
+			}
+		}
+
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-
-
-
+		if(other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
+			typeList.Add (other.gameObject);
 		}
 
 
@@ -35,7 +44,7 @@ public class ScriptField : MonoBehaviour {
 		
 		if (other.CompareTag ("Player") ) {
 			
-			type = other.gameObject;
+			//type = other.gameObject;
 
 			if (other.gameObject.transform.GetComponent<movimentoMoohMooh> () != null) {
 				if (other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking
@@ -72,10 +81,10 @@ public class ScriptField : MonoBehaviour {
 
 
 		}
-		else if(other.CompareTag ("Enemy")){
-			if(type == null)
-				type = other.gameObject;
-			}
+	//	else if(other.CompareTag ("Enemy")){
+			//if(type == null)
+			//	type = other.gameObject;
+		//	}
 
 
 
@@ -86,11 +95,16 @@ public class ScriptField : MonoBehaviour {
 
 		if (other.tag == "Player" || other.tag == "Enemy") {
 
-			if (type != null) 
+			foreach(GameObject tipo in typeList)
+				if (typeList != null && tipo == other.gameObject) 
 				freeFloor = true;
 
-			type = null;
+			//type = null;
 		}
+
+		typeList.Remove (other.gameObject);
+		if (typeList.Count == 0)
+			typeList.Clear ();
 
 		preparaCampo = false;
 		cancelaCampo = false;
