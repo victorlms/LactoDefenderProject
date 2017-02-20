@@ -7,7 +7,8 @@ public class MoveEnemy : MonoBehaviour
 	public status enemyStatus = status.move;	
 	GameObject checkType;
 	float backup_speed;
-	public int x;
+	public float reactionToHit = 0.2f;// Paradinha por apanhar
+	float damagePlayer;
 	//FAZER CONTA DO DANO RECEBIDO
 	void Start()
 	{
@@ -17,6 +18,8 @@ public class MoveEnemy : MonoBehaviour
 
 	void Update ()
 	{
+		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
+			enemyStatus = status.death;
 
 		switch (enemyStatus) {
 
@@ -33,9 +36,12 @@ public class MoveEnemy : MonoBehaviour
 			break;
 
 		case status.hit:
-			
-			transform.Translate (Vector3.left * -gameObject.GetComponent<StatusEnemy> ().speed *0.2f * Time.deltaTime);
-
+			gameObject.GetComponent<StatusEnemy> ().life -= damagePlayer;
+			transform.Translate (Vector3.left * -gameObject.GetComponent<StatusEnemy> ().speed * reactionToHit * Time.deltaTime);
+			//ANIMAÇÃO//
+			if (gameObject.GetComponent<StatusEnemy> ().life <= 0) {
+				enemyStatus = status.death;
+			}
 			break;
 
 		case status.death:
@@ -45,11 +51,8 @@ public class MoveEnemy : MonoBehaviour
 			break;
 		}//FECHA SWITCH
 
-		if (gameObject.GetComponent<StatusEnemy> ().life <= 0)
-			enemyStatus = status.death;
-		
 	
-	}//FECHA UPDATE PORRA
+	}//FECHA UPDATE 
 
 	/*
 	void OnCollisionEnter2D(Collision2D other){
@@ -62,25 +65,23 @@ public class MoveEnemy : MonoBehaviour
 
 
 	void OnTriggerEnter2D(Collider2D other){
-		
+		if (other.gameObject.tag == "AtkPlayer") {
+			damagePlayer = other.gameObject.GetComponent<StatusPlayer> ().damage;
+			enemyStatus = status.hit;
+		}
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		if (other.gameObject.tag == "Player") {
+		if (other.gameObject.tag == "Player") {//Encostou no player!
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
 
 		}
-		else
-			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
-		
-		if (other.gameObject.tag == "AtkPlayer")
-			enemyStatus = status.hit;	
 	}
 
 	void OnTriggerExit2D(Collider2D other){
 
 		if (other.tag == "Player")
-			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
+			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;//Player fugiu
 		if (other.tag == "AtkPlayer")
 			enemyStatus = status.move;
 		

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+//VICTOR, CRIEI A VARIÁVEL" PUBLIC FLOAT damage" REFERENTE AO DANO AQUI PRO ALIEN PUXAR E FAZER OS CALCULOS
 public class StatusPlayer : MonoBehaviour {
 
 	float life;
 	float tempoRestante;
-
+	public float damage;
 	public bool death;
 
 	void start(){
