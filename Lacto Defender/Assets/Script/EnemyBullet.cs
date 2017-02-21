@@ -21,4 +21,8 @@ public class EnemyBullet : MonoBehaviour {
 			Destroy (gameObject);
 		}
 	}
+	void OnTriggerExit2D(Collider2D other){
+		if (other.tag == "grid")
+			Destroy (gameObject);
+	}
 }

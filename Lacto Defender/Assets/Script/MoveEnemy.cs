@@ -41,7 +41,8 @@ public class MoveEnemy : MonoBehaviour
 			//ANIMAÇÃO//
 			if (gameObject.GetComponent<StatusEnemy> ().life <= 0) {
 				enemyStatus = status.death;
-			}
+			} else
+				enemyStatus = status.move;
 			break;
 
 		case status.death:
@@ -65,9 +66,12 @@ public class MoveEnemy : MonoBehaviour
 
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "AtkPlayer") {
-			damagePlayer = other.gameObject.GetComponent<StatusPlayer> ().damage;
+		if (other.tag == "AtkPlayer") {
+			//Colcoar bala como filho da vaca
+			//damagePlayer = other.gameObject.GetComponentInParent<StatusPlayer> ().damage;
+
 			enemyStatus = status.hit;
+
 		}
 	}
 
@@ -80,8 +84,10 @@ public class MoveEnemy : MonoBehaviour
 
 	void OnTriggerExit2D(Collider2D other){
 
-		if (other.tag == "Player")
-			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;//Player fugiu
+		if (other.tag == "Player") {
+			gameObject.GetComponent<StatusEnemy> ().speed = backup_speed;
+			gameObject.GetComponent<MoveEnemy> ().enemyStatus = status.move;
+		}//Player fugiu
 		if (other.tag == "AtkPlayer")
 			enemyStatus = status.move;
 		
