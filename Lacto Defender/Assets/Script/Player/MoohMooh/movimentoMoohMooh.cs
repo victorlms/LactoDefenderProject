@@ -103,6 +103,7 @@ public class movimentoMoohMooh : MonoBehaviour {
 					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
 
 			}
+		
 		if (walkDown.Count > 0)
 			foreach (GameObject campo in walkDown) {
 
@@ -112,6 +113,7 @@ public class movimentoMoohMooh : MonoBehaviour {
 					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
 
 			}
+		
 		if (walkLeft.Count > 0)
 			foreach (GameObject campo in walkLeft) {
 
@@ -121,6 +123,7 @@ public class movimentoMoohMooh : MonoBehaviour {
 					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
 
 			}
+		
 		if (walkRight.Count > 0)
 			foreach (GameObject campo in walkRight) {
 
@@ -128,7 +131,7 @@ public class movimentoMoohMooh : MonoBehaviour {
 					&& campo.gameObject.transform.GetComponent<ScriptField> ().walkObject != gameObject
 					&& prepara == true)
 					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
-
+		
 			}
 		
 		//ABRE_GERENCIAMENTO

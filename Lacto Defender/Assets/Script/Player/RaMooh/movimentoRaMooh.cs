@@ -9,6 +9,7 @@ public class movimentoRaMooh : MonoBehaviour {
 	public GameObject line;
 	public GameObject lineUp;
 	public GameObject lineDown;
+	public GameObject alien;
 
 	public List<GameObject> linePath;
 	public List<GameObject> lineUpPath;
@@ -30,7 +31,7 @@ public class movimentoRaMooh : MonoBehaviour {
 	public bool walking = false;
 
 	void Start () {
-
+		alien = null;
 		linePath = new List<GameObject> ();
 
 		lineUpPath = new List<GameObject>();
@@ -48,6 +49,86 @@ public class movimentoRaMooh : MonoBehaviour {
 
 	void Update ()
 	{
+
+		if (prepara) {
+
+			foreach (GameObject campo in walkUp) {
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true) {
+					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+					campo.gameObject.transform.GetComponent<ScriptField> ().walkObject = gameObject;
+				}
+
+
+			}
+
+			foreach (GameObject campo in walkDown) {
+
+
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true) {
+					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+					campo.gameObject.transform.GetComponent<ScriptField> ().walkObject = gameObject;
+				}
+			}
+
+			foreach (GameObject campo in walkRight) {
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true) {
+					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+					campo.gameObject.transform.GetComponent<ScriptField> ().walkObject = gameObject;
+				}
+
+			}
+
+			foreach (GameObject campo in walkLeft) {
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true) {
+					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
+					campo.gameObject.transform.GetComponent<ScriptField> ().walkObject = gameObject;
+				}
+
+			}
+
+		}
+
+		if (walkUp.Count > 0)
+			foreach (GameObject campo in walkUp) {
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true 
+					&& campo.gameObject.transform.GetComponent<ScriptField> ().walkObject != gameObject
+					&& prepara == true  )
+					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
+
+			}
+
+		if (walkDown.Count > 0)
+			foreach (GameObject campo in walkDown) {
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true
+					&& campo.gameObject.transform.GetComponent<ScriptField> ().walkObject != gameObject
+					&& prepara == true)
+					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
+
+			}
+
+		if (walkLeft.Count > 0)
+			foreach (GameObject campo in walkLeft) {
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true 
+					&& campo.gameObject.transform.GetComponent<ScriptField> ().walkObject != gameObject
+					&& prepara == true)
+					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
+
+			}
+
+		if (walkRight.Count > 0)
+			foreach (GameObject campo in walkRight) {
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true
+					&& campo.gameObject.transform.GetComponent<ScriptField> ().walkObject != gameObject
+					&& prepara == true)
+					campo.gameObject.transform.GetComponent<ScriptField> ().onPath = false;
+
+			}
 
 		//ABRE_GERENCIAMENTO
 		//WALK UP
@@ -198,6 +279,7 @@ public class movimentoRaMooh : MonoBehaviour {
 			walkDown.Clear ();
 			walkLeft.Clear ();
 			walkRight.Clear ();
+			prepara = false;
 			limpa = false;
 		}
 
@@ -399,6 +481,9 @@ public class movimentoRaMooh : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other){
 
+		if (other.gameObject.transform.tag == "Enemy")
+			alien = other.gameObject;
+
 	}//ONTRIGGERSTAY
 
 	void OnTriggerExit2D(Collider2D other){
@@ -440,19 +525,18 @@ public class movimentoRaMooh : MonoBehaviour {
 
 	void OnMouseDown(){
 
-		if (clica && gameObject.GetComponent<spawnPlayerRaMooh>().onField ) {
-
-
+		if (clica && gameObject.GetComponent<spawnPlayerRaMooh>().onField && alien == null) {
 
 			clica = false;
 			prepara = true;
 
 		}
+
+		if (prepara && clica) {
+			prepara = false;
+		}
 		clica = true;
 
-	}
+	}//ON MOUSE DOWN
 
-
-
-
-}
+}//MONOBEHAVIOUR

@@ -11,17 +11,16 @@ public class ScriptField : MonoBehaviour {
 	public bool preparaCampo = false;
 	public bool cancelaCampo = false;
 	public bool preparaCampoSapo = false;
+
 	public List<GameObject> typeList;
 
 	public GameObject walkObject;
 
 
-	// Use this for initialization
 	void Start () {
 		typeList = new List <GameObject>();
 	}
 
-	// Update is called once per frame
 	void Update () {
 
 		if (typeList.Count > 0) {

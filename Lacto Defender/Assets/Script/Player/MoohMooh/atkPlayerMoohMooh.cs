@@ -7,15 +7,20 @@ public class atkPlayerMoohMooh : MonoBehaviour {
 	public bool repete = false;
 	public bool activate = false;
 	public bool search = false;
+
 	public GameObject line;
+
 	public List<GameObject> linePath;
 
 	public GameObject projetil;
+
 	public float speed;
+	public float damage;
 
 	// Use this for initialization
 	void Start () {
 		linePath = new List<GameObject> ();
+		gameObject.transform.GetComponent<StatusPlayer> ().damage = damage;
 
 	}
 	
@@ -99,6 +104,7 @@ public class atkPlayerMoohMooh : MonoBehaviour {
 	}
 
 	void launch(){
-		Instantiate (projetil, transform.position, Quaternion.identity);
+		GameObject clone = Instantiate (projetil, transform.position, Quaternion.identity);
+		clone.transform.SetParent (gameObject.transform);
 	}
 }

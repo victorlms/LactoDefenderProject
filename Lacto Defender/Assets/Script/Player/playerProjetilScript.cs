@@ -8,7 +8,8 @@ public class playerProjetilScript : MonoBehaviour {
 	public float speed;
 
 	void Start () {
-		
+
+		dano = gameObject.transform.parent.GetComponent<StatusPlayer> ().damage;
 
 	}
 
@@ -21,7 +22,7 @@ public class playerProjetilScript : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 
 		if (other.gameObject.tag == "Enemy") {
-			other.gameObject.transform.GetComponent<StatusEnemy> ().life -= dano;
+			//other.gameObject.transform.GetComponent<StatusEnemy> ().life -= dano;
 			Destroy (gameObject);
 		}
 	}

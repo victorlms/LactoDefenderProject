@@ -12,11 +12,12 @@ public class atkPlayerRaMooh : MonoBehaviour {
 
 	public GameObject projetil;
 	public float speed;
+	public float damage;
 
 	// Use this for initialization
 	void Start () {
 		linePath = new List<GameObject> ();
-
+		gameObject.transform.GetComponent<StatusPlayer> ().damage = damage;
 	}
 
 	// Update is called once per frame
@@ -98,6 +99,7 @@ public class atkPlayerRaMooh : MonoBehaviour {
 	}
 
 	void launch(){
-		Instantiate (projetil, transform.position, Quaternion.identity);
+		GameObject clone = Instantiate (projetil, transform.position, Quaternion.identity);
+		clone.gameObject.transform.SetParent (gameObject.transform);
 	}
 }

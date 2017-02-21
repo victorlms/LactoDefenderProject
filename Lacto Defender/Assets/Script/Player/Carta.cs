@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Carta : MonoBehaviour {
 
-	public float speed = 5.0f;
+	public float speed;
 	public float tempo;
 
 	public bool boxEmpty;
@@ -52,10 +52,14 @@ public class Carta : MonoBehaviour {
 
 			_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			
-		} else
-			
+		} else {
 			tempo -= Time.deltaTime;
+		}
 
+		if (tempo > 0)
+			gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 1, 1, 0.5f);
+		else
+			gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 1, 1, 1);
 
 	}//FECHA_UPDATE	
 
@@ -65,7 +69,7 @@ public class Carta : MonoBehaviour {
 			Instantiate (player, _mousePosition, Quaternion.identity);
 		}
 
-		tempo = 10;
+		tempo = speed;
 
 	}
 		

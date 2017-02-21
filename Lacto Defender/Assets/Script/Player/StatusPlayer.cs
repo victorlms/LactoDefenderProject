@@ -8,6 +8,9 @@ public class StatusPlayer : MonoBehaviour {
 	public float life;
 	public float tempoRestante;
 	public float damage;
+
+	bool ativa = false;
+	float timeAtk = 0;
 	public bool death;
 
 	void start(){
@@ -24,8 +27,22 @@ public class StatusPlayer : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other){
 
-		if (other.tag == "atkEnemy")
-			life -= other.transform.GetComponent<StatusEnemy> ().damage;
+		if (other.tag == "atkEnemy") {
+
+			if (timeAtk == 0)
+				ativa = true;
+			
+			if (timeAtk > 0)
+				ativa = false;
+
+			timeAtk = 1;
+
+			if(ativa)
+				life -= other.transform.GetComponent<StatusEnemy> ().damage;
+
+			if (timeAtk > 0)
+				timeAtk -= Time.deltaTime / 5;
+		}
 
 		if (life < 0 || tempoRestante < 0) {
 			death = true;
