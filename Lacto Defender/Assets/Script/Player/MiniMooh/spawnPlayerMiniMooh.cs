@@ -76,9 +76,10 @@ public class spawnPlayerMiniMooh : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D other){
 
-		if (spawn == true && other.gameObject.tag == "Box") {
+		if (spawn == true) {
 
-			if (other.gameObject == objeto [0]) {
+			if(objeto.Count >0)
+			if (other.gameObject == objeto [0] && other.gameObject.tag == "Box") {
 
 				objeto.Remove (other.gameObject);
 

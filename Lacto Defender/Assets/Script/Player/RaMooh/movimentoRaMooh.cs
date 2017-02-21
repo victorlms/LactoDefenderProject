@@ -53,16 +53,18 @@ public class movimentoRaMooh : MonoBehaviour {
 		//WALK UP
 
 
-		if(walkUp.Count==1)
-		if (walkUp[0].gameObject.transform.GetComponent<ScriptField> ().freeFloor == true)
-			walkUp[0].gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+		if (walkUp.Count == 1)
+		if (walkUp [0].gameObject.transform.GetComponent<ScriptField> ().freeFloor == true) 
+			walkUp [0].gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+		
 
 		//WALK DOWN
 	
 
-		if(walkDown.Count==1)
-		if (walkDown[0].gameObject.transform.GetComponent<ScriptField> ().freeFloor == true)
-			walkDown[0].gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+		if (walkDown.Count == 1)
+		if (walkDown [0].gameObject.transform.GetComponent<ScriptField> ().freeFloor == true) 
+			walkDown [0].gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+		
 
 		//WALK LEFT
 	
@@ -91,11 +93,15 @@ public class movimentoRaMooh : MonoBehaviour {
 
 			foreach (GameObject campo in walkUp) {
 
-				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo 
+					&& prepara
+					&& campo.gameObject.transform.GetComponent<ScriptField>().walkObject == gameObject) {
 					walking = true;
 					field = campo.gameObject;
 					limpa = true;
 				}
+
 			}	
 		}//FECHAWALKUP
 
@@ -111,7 +117,9 @@ public class movimentoRaMooh : MonoBehaviour {
 
 			foreach (GameObject campo in walkDown) {
 
-				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo 
+					&& prepara
+					&& campo.gameObject.transform.GetComponent<ScriptField>().walkObject == gameObject) {
 					walking = true;
 					field = campo.gameObject;
 					limpa = true;
@@ -132,7 +140,9 @@ public class movimentoRaMooh : MonoBehaviour {
 
 			foreach (GameObject campo in walkLeft) {
 
-				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo 
+					&& prepara
+					&& campo.gameObject.transform.GetComponent<ScriptField>().walkObject == gameObject) {
 					walking = true;
 					field = campo.gameObject;
 					limpa = true;
@@ -152,7 +162,9 @@ public class movimentoRaMooh : MonoBehaviour {
 
 			foreach (GameObject campo in walkRight) {
 
-				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo && prepara) {
+				if (campo.gameObject.transform.GetComponent<ScriptField> ().preparaCampo 
+					&& prepara
+					&& campo.gameObject.transform.GetComponent<ScriptField>().walkObject == gameObject) {
 					walking = true;
 					field = campo.gameObject;
 					limpa = true;
@@ -363,18 +375,22 @@ public class movimentoRaMooh : MonoBehaviour {
 
 			foreach (GameObject fieldTest in walkUp) {
 				fieldTest.gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+				//fieldTest.gameObject.transform.GetComponent<ScriptField> ().walkList.Add (transform.gameObject);
 			}
 
 			foreach (GameObject fieldTest in walkDown) {
 				fieldTest.gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+				//fieldTest.gameObject.transform.GetComponent<ScriptField> ().walkList.Add (transform.gameObject);
 			}
 
 			foreach (GameObject fieldTest in walkLeft) {
 				fieldTest.gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+				//fieldTest.gameObject.transform.GetComponent<ScriptField> ().walkList.Add (transform.gameObject);
 			}
 
 			foreach (GameObject fieldTest in walkRight) {
 				fieldTest.gameObject.transform.GetComponent<ScriptField> ().onPath = true;
+				//fieldTest.gameObject.transform.GetComponent<ScriptField> ().walkList.Add (transform.gameObject);
 			}
 
 		}//FECHA IF TAG
@@ -391,19 +407,17 @@ public class movimentoRaMooh : MonoBehaviour {
 
 			if (other.tag == "Box") {
 
-
 				if (objeto.Count > 0)
-					for (int i = 0; i<objeto.Count; i++) {
+					for (int i = 0; i < objeto.Count; i++) {
 
-						if (objeto[i].gameObject == other.gameObject) {
+						if (objeto [i].gameObject == other.gameObject) {
 							//	field.transform.GetComponent<ScriptField> ().freeFloor = true;
 							other.gameObject.transform.GetComponent<ScriptField> ().freeFloor = true;
-							objeto.Remove (objeto[i].gameObject);
+							objeto.Remove (objeto [i].gameObject);
 
 						}
 
 					}
-
 			}
 		}
 
@@ -411,7 +425,7 @@ public class movimentoRaMooh : MonoBehaviour {
 
 
 
-			if (other.gameObject == objeto[0]) {
+			if (other.gameObject == objeto [0]) {
 				objeto.Remove (field.gameObject);
 			}
 
@@ -428,33 +442,7 @@ public class movimentoRaMooh : MonoBehaviour {
 
 		if (clica && gameObject.GetComponent<spawnPlayerRaMooh>().onField ) {
 
-			foreach (GameObject campo in walkUp) {
 
-				if(campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true)
-					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
-
-
-			}
-
-			foreach (GameObject campo in walkDown) {
-				if(campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true)
-					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
-
-
-			}
-
-			foreach (GameObject campo in walkRight) {
-				if(campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true)
-					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
-
-
-			}
-
-			foreach (GameObject campo in walkLeft) {
-				if(campo.gameObject.transform.GetComponent<ScriptField> ().onPath == true)
-					campo.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (0, 1, 0, 1);
-
-			}
 
 			clica = false;
 			prepara = true;

@@ -10,26 +10,33 @@ public class ScriptField : MonoBehaviour {
 	public bool walk2 = false;
 	public bool preparaCampo = false;
 	public bool cancelaCampo = false;
-	//public GameObject type;
+	public bool preparaCampoSapo = false;
 	public List<GameObject> typeList;
+
+	public GameObject walkObject;
+
 
 	// Use this for initialization
 	void Start () {
 		typeList = new List <GameObject>();
-		//type = null;
 	}
 
 	// Update is called once per frame
 	void Update () {
 
 		if (typeList.Count > 0) {
+			
 			foreach (GameObject tipo in typeList) {
-
-				if (tipo == null)
+				if (tipo == null) {
 					typeList.Remove (tipo);
-
+				
+				}
 			}
+
 		}
+
+
+	
 
 	}
 
@@ -44,7 +51,6 @@ public class ScriptField : MonoBehaviour {
 		
 		if (other.CompareTag ("Player") ) {
 			
-			//type = other.gameObject;
 
 			if (other.gameObject.transform.GetComponent<movimentoMoohMooh> () != null) {
 				if (other.gameObject.transform.GetComponent<movimentoMoohMooh> ().walking
@@ -78,13 +84,26 @@ public class ScriptField : MonoBehaviour {
 				}
 			}
 
+			if (other.gameObject.transform.GetComponent<movimentoSapo> () != null) {
+				if (other.gameObject.transform.GetComponent<movimentoSapo> ().walking
+					&& other.gameObject.transform.GetComponent<movimentoSapo> ().field.gameObject == gameObject) {
+
+					other.gameObject.transform.GetComponent<movimentoSapo> ().walking = false;
+
+					other.gameObject.transform.position = transform.position;
+					other.gameObject.transform.GetComponent<spawnPlayerSapo> ().onField = true;
+					other.gameObject.transform.GetComponent<movimentoSapo> ().field = null;
+					preparaCampo = false;
+					cancelaCampo = false;
+					other.gameObject.transform.GetComponent<movimentoSapo> ().prepara = false;
+
+				}
+			}
+
 
 
 		}
-	//	else if(other.CompareTag ("Enemy")){
-			//if(type == null)
-			//	type = other.gameObject;
-		//	}
+
 
 
 
@@ -99,7 +118,6 @@ public class ScriptField : MonoBehaviour {
 				if (typeList != null && tipo == other.gameObject) 
 				freeFloor = true;
 
-			//type = null;
 		}
 
 		typeList.Remove (other.gameObject);
@@ -117,8 +135,10 @@ public class ScriptField : MonoBehaviour {
 
 	void OnMouseDown(){
 
-		if (freeFloor) {
+		if (freeFloor && walkObject != null && onPath) {
+
 			preparaCampo = true;
+
 		} else {
 			cancelaCampo = true;
 		}

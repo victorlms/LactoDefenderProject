@@ -28,7 +28,7 @@ public class Carta : MonoBehaviour {
 
 	void Update () 
 	{
-		if (tempo == 0) {
+		if (tempo <= 0) {
 			
 			Vector2 objPosition = Camera.main.ScreenToWorldPoint (vetorOriginal);
 
@@ -51,7 +51,7 @@ public class Carta : MonoBehaviour {
 			}
 
 			_mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-	
+			
 		} else
 			
 			tempo -= Time.deltaTime;
@@ -61,7 +61,10 @@ public class Carta : MonoBehaviour {
 
 	void OnMouseDown(){
 
-		Instantiate (player, _mousePosition, Quaternion.identity);
+		if (tempo <= 0) {
+			Instantiate (player, _mousePosition, Quaternion.identity);
+		}
+
 		tempo = 10;
 
 	}
