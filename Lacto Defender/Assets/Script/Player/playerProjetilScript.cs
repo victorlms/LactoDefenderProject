@@ -9,7 +9,7 @@ public class playerProjetilScript : MonoBehaviour {
 
 	void Start () {
 
-		dano = gameObject.transform.parent.GetComponent<StatusPlayer> ().damage;
+	//	dano = gameObject.transform.parent.GetComponent<StatusPlayer> ().damage;
 
 	}
 

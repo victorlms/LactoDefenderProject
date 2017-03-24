@@ -40,12 +40,14 @@ public class ScriptField : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
+	
 		if(other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
 			typeList.Add (other.gameObject);
-		}
+	
+	}
 
 
-	void OnTriggerStay2D(Collider2D other){
+	/*void OnTriggerStay2D(Collider2D other){
 		
 		
 		if (other.CompareTag ("Player") ) {
@@ -68,17 +70,17 @@ public class ScriptField : MonoBehaviour {
 			}
 
 			if (other.gameObject.transform.GetComponent<movimentoRaMooh> () != null) {
-				if (other.gameObject.transform.GetComponent<movimentoRaMooh> ().walking
-				   && other.gameObject.transform.GetComponent<movimentoRaMooh> ().field.gameObject == gameObject) {
+				if (other.gameObject.transform.GetComponent<novoMovimentoRaMooh> ().walking
+				   && other.gameObject.transform.GetComponent<novoMovimentoRaMooh> ().destino.gameObject == gameObject) {
 
-					other.gameObject.transform.GetComponent<movimentoRaMooh> ().walking = false;
+					other.gameObject.transform.GetComponent<novoMovimentoRaMooh> ().walking = false;
 
 					other.gameObject.transform.position = transform.position;
 					other.gameObject.transform.GetComponent<spawnPlayerRaMooh> ().onField = true;
-					other.gameObject.transform.GetComponent<movimentoRaMooh> ().field = null;
+					other.gameObject.transform.GetComponent<novoMovimentoRaMooh> ().destino = null;
 					preparaCampo = false;
 					cancelaCampo = false;
-					other.gameObject.transform.GetComponent<movimentoRaMooh> ().prepara = false;
+					other.gameObject.transform.GetComponent<novoMovimentoRaMooh> ().prepara = false;
 
 				}
 			}
@@ -106,7 +108,7 @@ public class ScriptField : MonoBehaviour {
 
 
 
-	}
+	}*/
 
 	void OnTriggerExit2D(Collider2D other){
 
@@ -134,7 +136,7 @@ public class ScriptField : MonoBehaviour {
 
 	void OnMouseDown(){
 
-		if (freeFloor && walkObject != null && onPath) {
+		if (freeFloor && onPath) {
 
 			preparaCampo = true;
 

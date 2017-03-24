@@ -127,7 +127,7 @@ public class spawnPlayerRaMooh : MonoBehaviour {
 						boxEmpty = false;
 						permission = false;
 						spawn = false;
-						//	gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
+						gameObject.transform.GetComponent<novoMovimentoRaMooh> ().criaLista = true;
 
 					}
 					if (onField == false && permission == false) {

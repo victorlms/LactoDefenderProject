@@ -30,6 +30,7 @@ public class movimentoRaMooh : MonoBehaviour {
 
 	public bool walking = false;
 
+
 	void Start () {
 		alien = null;
 		linePath = new List<GameObject> ();

@@ -80,6 +80,10 @@ public class MoveEnemy : MonoBehaviour
 			gameObject.GetComponent<StatusEnemy> ().speed = 0;
 
 		}
+
+		if (other.gameObject.tag == "Box") {
+			other.gameObject.transform.GetComponent<ScriptField> ().freeFloor = false;
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D other){
@@ -90,6 +94,10 @@ public class MoveEnemy : MonoBehaviour
 		}//Player fugiu
 		if (other.tag == "AtkPlayer")
 			enemyStatus = status.move;
+
+		if (other.gameObject.tag == "Box") {
+			other.gameObject.transform.GetComponent<ScriptField> ().freeFloor = true;
+		}
 		
 		
 	}//FECHA EXIT

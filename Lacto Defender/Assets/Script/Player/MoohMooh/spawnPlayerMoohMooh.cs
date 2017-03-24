@@ -126,7 +126,7 @@ public class spawnPlayerMoohMooh : MonoBehaviour {
 						boxEmpty = false;
 						permission = false;
 						spawn = false;
-						//	gameObject.transform.GetComponent<SpriteRenderer> ().color = new Vector4 (1, 0, 0, 1);
+						gameObject.transform.GetComponent<novoMovimentoMoohMooh> ().criaLista = true;
 
 					}
 					if (onField == false && permission == false) {

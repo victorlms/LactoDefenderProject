@@ -105,6 +105,6 @@ public class atkPlayerMoohMooh : MonoBehaviour {
 
 	void launch(){
 		GameObject clone = Instantiate (projetil, transform.position, Quaternion.identity);
-		clone.transform.SetParent (gameObject.transform);
+		//clone.transform.SetParent (gameObject.transform);
 	}
 }

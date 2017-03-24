@@ -10,6 +10,10 @@ public class Carta : MonoBehaviour {
 	public bool boxEmpty;
 	public bool permission;
 
+	public GameObject deck;
+	public GameObject pack;
+	public GameObject monster;
+
 	Vector2 offset;
 
 	ScriptField reconhece;
@@ -19,10 +23,13 @@ public class Carta : MonoBehaviour {
 	Vector2 vetorOriginal;
 	Vector2 rotaOriginal;
 	Vector2 _mousePosition;
+
 	void start ()
 	{
 		tempo = 0;
 		vetorOriginal = new Vector2(transform.position.x, transform.position.y);
+
+		deck = gameObject.transform.parent.gameObject;
 	
 	}
 
@@ -65,8 +72,11 @@ public class Carta : MonoBehaviour {
 
 	void OnMouseDown(){
 
+
+
 		if (tempo <= 0) {
-			Instantiate (player, _mousePosition, Quaternion.identity);
+			monster = Instantiate (player, _mousePosition, Quaternion.identity);
+			pack.gameObject.transform.GetComponent<monsterPack> ().pack.Add (monster.gameObject);
 		}
 
 		tempo = speed;
